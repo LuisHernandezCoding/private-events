@@ -1,0 +1,31 @@
+<div class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item is-brand" href="/">
+                    <%= image_tag 'logo.svg', alt: 'Logo'%>
+                    <span class="navbar-item"><%= TITLE %></span>
+                </a>
+                <span class="navbar-burger burger" data-target="navbarMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+            <div id="navbarMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="tabs is-right">
+                        <ul>
+                            <li class="is-active"><a href="<%= root_path %>">Home</a></li>
+                            <li><a href="">Events</a></li>
+                            <li><a href="<%= contact_path %>">Contact</a></li>
+                            <li><a href="<%= about_path %>">About</a></li>
+                            <li><a href="">Login</a></li>
+                            <li><a href="">Register</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

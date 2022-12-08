@@ -1,0 +1,1 @@
+TITLE = 'Private Events'.freeze
