@@ -73,3 +73,6 @@ end
 
 # Use RuboCop for code style
 gem 'rubocop', '>= 1.0', '< 2.0'
+
+# Use bulma-rails for CSS framework
+gem "bulma-rails", "~> 0.9.4"
