@@ -13,7 +13,17 @@
   <body>
     <section class="hero is-fullheight is-default is-bold">
       <%= render "layouts/header" %>
-      <%= yield %>
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <% if notice %>
+            <p class="alert alert-success"><%= notice %></p>
+          <% end %>
+          <% if alert %>
+            <p class="alert alert-danger"><%= alert %></p>
+          <% end %>
+          <%= yield %>
+        </div>
+      </div>
       <%= render "layouts/footer" %>
     </section>
   </body>

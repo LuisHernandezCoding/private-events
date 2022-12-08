@@ -79,3 +79,6 @@ gem "bulma-rails", "~> 0.9.4"
 
 # Use font-awesome-rails for icons
 gem "font-awesome-sass", "~> 6.2.1"
+
+# Use devise for authentication
+gem "devise", "~> 4.8"

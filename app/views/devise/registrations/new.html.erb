@@ -1,0 +1,33 @@
+<div class="column is-6 is-offset-3">
+  <h1 class="title">
+    Sign up
+  </h1>
+  <h2 class="subtitle has-text-danger">
+    <%= devise_error_messages! %>
+  </h2>
+  <div class="box">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input" %>
+      </div>
+      <div class="field">
+        <%= f.label :password %>
+        <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %><br />
+        <%= f.password_field :password, autocomplete: "new-password", class: "input" %>
+      </div>
+      <div class="field">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input" %>
+      </div>
+    <br />
+    <%= f.submit "Sign up", class: "button is-info" %>
+    <% end %>
+  </div>
+  <br>
+  <p class="has-text-grey has-text-right">
+    <a class="button" href="<%= root_path %>">Back to Home</a>
+  </p>
+</div>
