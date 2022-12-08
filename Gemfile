@@ -76,3 +76,6 @@ gem 'rubocop', '>= 1.0', '< 2.0'
 
 # Use bulma-rails for CSS framework
 gem "bulma-rails", "~> 0.9.4"
+
+# Use font-awesome-rails for icons
+gem "font-awesome-sass", "~> 6.2.1"
