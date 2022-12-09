@@ -28,9 +28,13 @@
         <%= f.submit "Log in", class: "button is-info" %>
       </div>
     <% end %>
+    <br/>
+    <p class="has-text-grey">
+      <a href="<%= new_password_path(resource_name) %>">Forgot your password?</a> &nbsp;·&nbsp;
+      <a href="<%= new_registration_path(resource_name) %>">Sign Up</a>
+    </p>
   </div>
-  <p class="has-text-grey">
-    <a href="<%= new_password_path(resource_name) %>">Forgot your password?</a> &nbsp;·&nbsp;
-    <a href="<%= new_registration_path(resource_name) %>">Sign Up</a>
+  <p class="has-text-grey has-text-right">
+    <a class="button" href="<%= root_path %>">Back to Home</a>
   </p>
 </div>

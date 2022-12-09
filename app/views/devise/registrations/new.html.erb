@@ -25,8 +25,12 @@
     <br />
     <%= f.submit "Sign up", class: "button is-info" %>
     <% end %>
+    <br/>
+    <p class="has-text-grey">
+      Already have an account?
+      <a href="<%= new_user_session_path %>">Log in</a>
+    </p>
   </div>
-  <br>
   <p class="has-text-grey has-text-right">
     <a class="button" href="<%= root_path %>">Back to Home</a>
   </p>
