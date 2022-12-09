@@ -3,7 +3,7 @@
     Log in
   </h1>
   <h2 class="subtitle">
-    <%= devise_error_messages! %>
+    <%= render "devise/shared/error_messages", resource: resource %>
   </h2>
   <div class="box">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -25,7 +25,7 @@
       <% end %>
 
       <div class="actions">
-        <%= f.submit "Log in", class: "button is-info" %>
+        <%= f.submit "Log in", class: "button is-info", data: { turbo: false } %>
       </div>
     <% end %>
     <br/>

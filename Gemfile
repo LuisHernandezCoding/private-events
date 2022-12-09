@@ -75,10 +75,16 @@ end
 gem 'rubocop', '>= 1.0', '< 2.0'
 
 # Use bulma-rails for CSS framework
-gem "bulma-rails", "~> 0.9.4"
+gem 'bulma-rails', '~> 0.9.4'
 
 # Use font-awesome-rails for icons
-gem "font-awesome-sass", "~> 6.2.1"
+gem 'font-awesome-sass', '~> 6.2.1'
 
 # Use devise for authentication
-gem "devise", "~> 4.8"
+gem 'devise', '~> 4.8'
+
+# Use devise-two-factor for two-factor authentication
+gem 'devise-two-factor'
+
+# Use letter-opener for email previews in development
+gem 'letter_opener', :group => :development

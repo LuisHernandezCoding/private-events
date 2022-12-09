@@ -3,7 +3,7 @@
     Forgot your password?
   </h1>
   <h2 class="subtitle">
-    <%= devise_error_messages! %>
+    <%= render "devise/shared/error_messages", resource: resource %>
   </h2>
   <div class="box">
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>

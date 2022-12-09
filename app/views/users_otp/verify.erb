@@ -1,0 +1,23 @@
+<div class="column is-6 is-offset-3">
+  <h1 class="title">
+    2 Factor Authentication
+  </h1>
+  <h2 class="subtitle">
+    <%= render "devise/shared/error_messages", resource: resource %>
+  </h2>
+  <div class="box">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), method: :post) do |f| %>
+      <div class="field">
+        <%= f.label :otp_attempt, "Enter the code One-Time code sended to your email" %><br />
+        <%= f.text_field :otp_attempt, autofocus: true, class: "input" %>
+      </div>
+      
+
+      <div class="actions">
+        <%= f.submit "Log in", class: "button is-info", data: { turbo: false } %>
+      </div>
+    <% end %>
+    <br/>
+  </div>
+</div>
+
