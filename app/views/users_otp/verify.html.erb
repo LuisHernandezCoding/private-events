@@ -8,11 +8,9 @@
   <div class="box">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), method: :post) do |f| %>
       <div class="field">
-        <%= f.label :otp_attempt, "Enter the code One-Time code sended to your email" %><br />
+        <%= f.label :otp_attempt, "Enter the code One-Time code sended to your device" %><br />
         <%= f.text_field :otp_attempt, autofocus: true, class: "input" %>
       </div>
-      <br/>
-      <%= qr.as_svg.html_safe %>
       <br/>
       <div class="actions">
       <br>

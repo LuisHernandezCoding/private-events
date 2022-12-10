@@ -1,0 +1,37 @@
+<div class="column is-6 is-offset-3">
+
+  <div class="box">
+    <% if current_user.otp_required_for_login %>
+      <p class="subtitle">
+        2 Factor Authentication is enabled.
+      </p>
+      <%= form_with url: disable_2fa_path, method: :patch do |f| %>
+        <div class="field">
+          <%= f.label :otp_attempt, "Enter the code One-Time code sended to your device" %><br />
+          <%= f.text_field :otp_attempt, autofocus: true, class: "input" %>
+        </div>
+        <br/>
+        <div class="actions">
+          <%= f.submit "Disable it!", class: "button is-danger", data: { turbo: false, disable_with: "Disabling..." } %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="subtitle">
+        2 Factor Authentication is disabled.
+      </p>
+      <div class="field">
+        <%= qr.html_safe %>
+      </div>
+      <%= form_with url: enable_2fa_path, method: :patch do |f| %>
+        <div class="field">
+          <%= f.label :otp_attempt, "Enter the code One-Time code sended to your device" %><br />
+          <%= f.text_field :otp_attempt, autofocus: true, class: "input" %>
+        </div>
+        <div class="actions">
+          <%= f.submit "Enable it!", class: "button is-info", data: { turbo: false, disable_with: "Enabling..." } %>
+        </div>
+      <% end %>
+    <% end %>
+    <br/>
+  </div>
+</div>

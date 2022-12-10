@@ -6,5 +6,6 @@ class ApplicationController < ActionController::Base
   # Configure permitted parameters for Devise
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_in, keys: [:otp_attempt])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:otp_attempt])
   end
 end
