@@ -1,9 +1,9 @@
 class UsersOtpController < Devise::SessionsController
   before_action :authenticate_user!
   before_action :set_2fa, only: %i[enable disable]
+  before_action :set_secret, only: [:settings]
 
   def enable
-    current_user.otp_secret = User.generate_otp_secret
     current_user.otp_required_for_login = true
     current_user.save!
     redirect_back fallback_location: root_path
@@ -22,6 +22,14 @@ class UsersOtpController < Devise::SessionsController
     @qr = @qr.as_svg(offset: 0, color: '000', shape_rendering: 'crispEdges', module_size: 4)
     resource = current_user
     render 'users_otp/settings', locals: { resource:, qr: @qr, user: current_user }
+  end
+
+  def set_secret
+    # Generate a new secret for enabling 2fa
+    return unless current_user.otp_secret.nil?
+
+    current_user.otp_secret = User.generate_otp_secret
+    current_user.save!
   end
 
   def set_2fa

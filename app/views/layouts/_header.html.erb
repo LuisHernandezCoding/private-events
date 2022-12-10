@@ -1,4 +1,4 @@
-<nav class="navbar is-white topNav has-background-info-dark is-fixed-top" role="navigation" aria-label="main navigation">
+<nav class="navbar is-white topNav has-background-light is-fixed-top" role="navigation" aria-label="main navigation">
   <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item" href="<%= root_path %>">
@@ -12,40 +12,36 @@
     </div>
     <div id="topNav" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item" href="<%= root_path %>">Home</a>
-        <a class="navbar-item" href="">Events</a>
+        <a class="navbar-item has-text-light hover:has-text-black" href="<%= root_path %>">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable" href="">
+          <a class="navbar-link" href="">Events</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="">All Events</a>
+            <a class="navbar-item" href="">Create Event</a>
+            <a class="navbar-item" href="">Upcoming Events</a>
+            <a class="navbar-item" href="">Past Events</a>
+          </div>
+        </div>
         <a class="navbar-item" href="<%= contact_path %>">Contact</a>
         <a class="navbar-item" href="<%= about_path %>">About</a>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="field is-grouped">
+          <div class="buttons">
             <% if user_signed_in? %>
-              <p class="control">
-                <%= button_to( "Profile", edit_user_registration_path, method: :get, class: "button is-small is-outlined") %>
-              </p>
-              <p class="control">
-                <%= button_to( "Log Out", destroy_user_session_path, method: :delete, class: "button is-small is-outlined") %>
-              </p>
-              <% else %>
-              <p class="control">
-                <a href="<%= new_user_registration_path %>" class="button is-small is-outlined" data-method="delete" data-confirm="Are you sure?">
-                  <span class="icon">
-                    <i class="fa fa-user-plus"></i>
-                  </span>
-                  <span>
-                    Register
-                  </span>
-                </a>
-              </p>
-              <p class="control">
-                <a href="<%= new_user_session_path %>" class="button is-small is-outlined">
-                  <span class="icon">
-                    <i class="fa fa-user"></i>
-                  </span>
-                  <span>Login</span>
-                </a>
-              </p>
+              <a href="<%= edit_user_registration_path %>" class="button is-primary is-small is-5 is-offset-1" data-method="get">
+                <span class="icon"><i class="fa fa-user"></i></span><span>Profile</span>
+              </a>
+              <%= button_to destroy_user_session_path, method: :delete, class: "button is-light is-small is-5 is-offset-1" do %>
+                  <span class="icon"><i class="fa fa-user-times"></i></span><span>Logout</span>
+              <% end %>
+            <% else %>
+              <a href="<%= new_user_registration_path %>" class="button is-primary is-small is-5 is-offset-1" data-method="delete" data-confirm="Are you sure?">
+                <span class="icon"><i class="fa fa-user-plus"></i></span><span>Register</span>
+              </a>
+              <a href="<%= new_user_session_path %>" class="button is-light is-small is-5 is-offset-1">
+                <span class="icon"><i class="fa fa-user"></i></span><span>Login</span>
+              </a>
             <% end %>
           </div>
         </div>

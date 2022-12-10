@@ -1,37 +1,65 @@
-<div class="column is-6 is-offset-3">
-  <h1 class="title">
-    Sign up
-  </h1>
-  <h2 class="subtitle has-text-danger">
-    <%= render "devise/shared/error_messages", resource: resource %>
-  </h2>
-  <div class="box">
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-      <div class="field">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input" %>
+<div class="columns is-multiline">
+  <div class="column is-8 is-offset-2 register">
+    <div class="columns">
+      <div class="column left is-6">
+        <h1 class="title is-1">Private Events</h1>
+        <h2 class="subtitle colored is-5 has-text-primary">A web platform for creating and attending events.</h2>
+        <p><strong>Private Events</strong> is a web platform that allows users to create and invite others to attend events,
+        users can easily plan and manage events such as parties, meetings, and gatherings.</p>
+        <br>
+        <p>The platform provides users with all the necessary tools to create an event, invite guests, and track attendance.</p>
+        <br>
+        <p>Whether you're organizing a small get-together or a large-scale event, 
+        <strong>Private Events</strong> makes it easy to stay organized and ensure a successful event.</p>
       </div>
-      <div class="field">
-        <%= f.label :password %>
-        <% if @minimum_password_length %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
-        <%= f.password_field :password, autocomplete: "new-password", class: "input" %>
+      <div class="column right has-text-centered box is-5 is-offset-1">
+        <h1 class="title is-4">Sign up today</h1>
+        <p class="description">
+          Sign up for access to private events and start planning your next event.
+        </p>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <br>
+          <div class="field">
+            <div class="control">
+              <%= f.label :email %>
+              <%= f.email_field :email, autocomplete: "email", class: "input is-medium" %>
+            </div>
+            <% resource.errors.full_messages_for(:email).each do |message| %>
+              <em class="help is-danger"><%= message %></em>
+            <% end %>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <%= f.label :password %>
+              <%= f.password_field :password, autocomplete: "new-password", class: "input is-medium" %>
+            </div>
+            <% resource.errors.full_messages_for(:password).each do |message| %>
+              <p class="help is-danger"><%= message %></p>
+            <% end %>
+          </div>
+          
+          <div class="field">
+            <div class="control">
+              <%= f.label :password_confirmation %>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input is-medium" %>
+            </div>
+            <% resource.errors.full_messages_for(:password_confirmation).each do |message| %>
+              <p class="help is-danger"><%= message %></p>
+            <% end %>
+          </div>
+
+          <%= f.submit "Submit", class: "button is-block is-primary is-fullwidth is-medium" %>
+          <br />
+          <small><em>
+            Already have an account?
+            <a href="<%= new_user_session_path %>">Log in</a>
+          </em></small>
+        <% end %>
       </div>
-      <div class="field">
-        <%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input" %>
-      </div>
-    <br />
-    <%= f.submit "Sign up", class: "button is-info" %>
-    <% end %>
-    <br/>
-    <p class="has-text-grey">
-      Already have an account?
-      <a href="<%= new_user_session_path %>">Log in</a>
+    </div>
+    <p class="has-text-grey has-text-right">
+      <a class="button" href="<%= root_path %>">Back to Home</a>
     </p>
   </div>
-  <p class="has-text-grey has-text-right">
-    <a class="button" href="<%= root_path %>">Back to Home</a>
-  </p>
 </div>
