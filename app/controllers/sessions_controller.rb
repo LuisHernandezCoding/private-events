@@ -10,7 +10,7 @@ class SessionsController < Devise::SessionsController
     elsif user.valid_password?(user_params[:password]) && user.otp_required_for_login
       session[:user_id] = user.id
       # CodeMailer.send_code(user).deliver_now
-      qr = RQRCode::QRCode.new(user.current_otp)
+      qr = RQRCode::QRCode.new(user.otp_provisioning_uri(user.email, issuer: 'MyApp'))
       render 'users_otp/verify', locals: { qr: }
     end
   end
@@ -35,7 +35,8 @@ class SessionsController < Devise::SessionsController
       sign_in(user)
     else
       flash[:alert] = 'Invalid code'
-      render 'users_otp/verify'
+      qr = RQRCode::QRCode.new(user.otp_provisioning_uri(user.email, issuer: 'MyApp'))
+      render 'users_otp/verify', locals: { qr: }
     end
   end
 end
