@@ -11,9 +11,11 @@
         <%= f.label :otp_attempt, "Enter the code One-Time code sended to your email" %><br />
         <%= f.text_field :otp_attempt, autofocus: true, class: "input" %>
       </div>
-      
-
+      <br/>
+      <%= qr.as_svg.html_safe %>
+      <br/>
       <div class="actions">
+      <br>
         <%= f.submit "Log in", class: "button is-info", data: { turbo: false } %>
       </div>
     <% end %>

@@ -9,8 +9,9 @@ class SessionsController < Devise::SessionsController
       auth_with_2fa(user)
     elsif user.valid_password?(user_params[:password]) && user.otp_required_for_login
       session[:user_id] = user.id
-      CodeMailer.send_code(user).deliver_now
-      render 'users_otp/verify'
+      # CodeMailer.send_code(user).deliver_now
+      qr = RQRCode::QRCode.new(user.current_otp)
+      render 'users_otp/verify', locals: { qr: }
     end
   end
 

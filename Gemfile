@@ -88,3 +88,6 @@ gem 'devise-two-factor'
 
 # Use letter-opener for email previews in development
 gem 'letter_opener', group: :development
+
+# Use rqrcode for QR codes
+gem 'rqrcode'
