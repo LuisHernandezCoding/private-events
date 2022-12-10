@@ -32,7 +32,7 @@ class UsersOtpController < Devise::SessionsController
         # If the code is valid, set 2fa to false and save the user
         current_user.otp_required_for_login = false
         current_user.save!
-        redirect_to root_path, notice: '2FA disabled'
+        redirect_to users_otp_settings_path, notice: '2FA disabled'
       else
         # If the code is invalid, show an error
         flash[:alert] = 'Invalid code'
@@ -44,7 +44,7 @@ class UsersOtpController < Devise::SessionsController
         # If the code is valid, set 2fa to true and save the user
         current_user.otp_required_for_login = true
         current_user.save!
-        redirect_to root_path, notice: '2FA enabled'
+        redirect_to users_otp_settings_path, notice: '2FA enabled'
       else
         # If the code is invalid, show an error
         flash[:alert] = 'Invalid code'
