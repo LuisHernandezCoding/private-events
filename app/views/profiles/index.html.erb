@@ -1,0 +1,9 @@
+Check it out:
+Profiles count: <%= @profiles.count %>
+<% @profiles.each do |profile| %>
+  <br> 
+  <%= profile.user.id %>
+  <%= profile.user.email %>
+  <%= profile.first_name %>
+  <%= profile.last_name %>
+<% end %>

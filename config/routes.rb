@@ -17,4 +17,16 @@ Rails.application.routes.draw do
   get "about", to: "pages#about"
   get "contact", to: "pages#contact"
   get 'test', to: 'pages#test'
+
+  # Index page for all users:
+  get 'users/profiles', to: 'profiles#index', as: 'profiles'
+
+  # show profile page for a user:
+  get 'users/:id/profile', to: 'profiles#show', as: 'user_profile'
+
+  # edit profile page for a user:
+  get 'users/:id/profile/edit', to: 'profiles#edit', as: 'edit_profile'
+
+  # update profile page for a user:
+  patch 'users/:id/update', to: 'profiles#update', as: 'update_profile'
 end
