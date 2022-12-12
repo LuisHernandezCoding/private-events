@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: %i[index show]
 
   def index
     @profiles = Profile.all
@@ -55,7 +55,7 @@ class ProfilesController < ApplicationController
     }
   end
 
-  private 
+  private
 
   def profile_params
     params.require(:profile).permit(:username, :first_name, :last_name, :gender, :title, :birthday, :country, :street,
