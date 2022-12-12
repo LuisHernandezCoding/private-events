@@ -13,15 +13,13 @@ class ApplicationController < ActionController::Base
 
   # Check if the user has a profile
   def check_for_profile
-    # If the user has a profile, return
-    # if the actual page is the profile creation page, return
     return if current_user.profile.present?
 
-    return if (controller_name == 'profiles' && action_name == 'edit') ||
-              (controller_name == 'profiles' && action_name == 'update') ||
+    return if (controller_name == 'profiles' && action_name == 'new') ||
+              (controller_name == 'profiles' && action_name == 'create') ||
               (controller_name == 'sessions' && action_name == 'destroy')
 
     # If the user doesn't have a profile, redirect to the profile creation page
-    redirect_to edit_profile_path(current_user), notice: 'Please create a profile'
+    redirect_to new_profile_path, notice: 'Please create a profile'
   end
 end

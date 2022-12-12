@@ -29,9 +29,13 @@
         <div class="navbar-item">
           <div class="buttons">
             <% if user_signed_in? %>
-              <a href="<%= edit_user_registration_path %>" class="button is-primary is-small is-5 is-offset-1" data-method="get">
-                <span class="icon"><i class="fa fa-user"></i></span><span>Profile</span>
-              </a>
+            
+              <% if current_user.profile.present? && current_user.profile.username != '' %>
+                <a href="<%= profile_path(current_user.profile.username) %>" class="button is-primary is-small is-5 is-offset-1">
+                  <span class="icon"><i class="fa fa-user"></i></span><span>Profile</span>
+                </a>
+              <% end %>
+
               <%= button_to destroy_user_session_path, method: :delete, class: "button is-light is-small is-5 is-offset-1" do %>
                   <span class="icon"><i class="fa fa-user-times"></i></span><span>Logout</span>
               <% end %>

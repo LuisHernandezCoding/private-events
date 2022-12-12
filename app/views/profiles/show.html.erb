@@ -1,0 +1,138 @@
+<div class="columns is-multiline">
+  <div class="column is-4">
+    <div class="card events-card">
+      <header class="card-header">
+        <p class="card-header-title">
+          User Information
+        </p>
+      </header>
+      <div class="card-table">
+        <div class="content">
+          <table class="table is-fullwidth is-striped">
+            <tbody>
+              <tr>
+                <td width="5%"><i class="fa fa-user"></td>
+                <td width="30%" class="has-text-weight-bold has-text-grey-dark has-text-left">Username</td>
+                <td class="level-right"><%= @profile.username %></td>
+              </tr>
+              <tr>
+                <td width="5%"><i class="fa fa-envelope"></td>
+                <td width="30%" class="has-text-weight-bold has-text-grey-dark has-text-left">Email</td>
+                <td class="level-right"><%= @profile.user.email %></td>
+              </tr>
+              <% if current_user && @profile.user_id == current_user.id %>
+                <tr>
+                  <td width="5%"><i class="fa fa-check"></td>
+                  <td width="30%" class="has-text-weight-bold has-text-grey-dark has-text-left">2FA</td>
+                  <td class="level-right">
+                    <% if @profile.user.otp_required_for_login %>
+                      <a class="button is-small is-primary" href="<%= users_otp_settings_path %>">Activated</a>
+                    <% else %>
+                      <a class="button is-small is-danger" href="<%= users_otp_settings_path %>">Desactivated</a>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <% if current_user && @profile.user_id == current_user.id %>
+        <footer class="card-footer">
+          <a href="<%= users_otp_settings_path %>" class="card-footer-item">2FA Settings</a>
+          <a href="<%= edit_user_registration_path %>" class="card-footer-item">Edit</a>
+        </footer>
+      <% end %>
+    </div>
+    <br>
+    <% if @profile.public_profile || (current_user && @profile.user_id == current_user.id) %>
+      <div class="card events-card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Personal Information
+          </p>
+        </header>
+        <div class="card-table">
+          <div class="content">
+            <table class="table is-fullwidth is-striped">
+              <tbody>
+                <tr>
+                  <td width="5%"><i class="fa fa-check"></td>
+                  <td width="30%" class="has-text-weight-bold has-text-grey-dark has-text-left">First Name</td>
+                  <td class="level-right"><%= @profile.first_name %></td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-check"></td>
+                  <td width="30%" class="has-text-weight-bold has-text-grey-dark has-text-left">Last Name</td>
+                  <td class="level-right"><%= @profile.last_name %></td>
+                </tr>
+                <% if current_user && @profile.user_id == current_user.id %>
+                  <tr>
+                    <td width="5%"><i class="fa fa-check"></td>
+                    <td width="30%" class="has-text-weight-bold has-text-grey-dark has-text-left">Profile:</td>
+                    <td class="level-right">
+                      <% if @profile.public_profile %>
+                        <div class="button is-small is-primary">Public</div>
+                      <% else %>
+                        <div class="button is-small is-info">Private</div>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <% if current_user && @profile.user_id == current_user.id %>
+          <footer class="card-footer">
+            <a href="<%= edit_profile_path %>" class="card-footer-item">Edit</a>
+          </footer>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="box">
+        <p class="title is-5">This profile is private!</p>
+        <p class="subtitle is-6">Only authorized users can see this content.</p>
+      </div>
+    <% end %>
+  </div>
+  <div class="column is-8">
+    <% if current_user && @profile.user_id == current_user.id %>
+      <section class="hero is-info welcome is-small">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title has-text-left">
+              Hello, <%= @profile.first_name %>!
+            </h1>
+            <h2 class="subtitle has-text-left">
+              I hope you are having a great day!
+            </h2>
+          </div>
+        </div>
+      </section>
+      <br>
+    <% end %>
+    <section class="info-tiles">
+      <div class="tile is-ancestor has-text-centered">
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title">0</p>
+            <p class="subtitle">Assisted Events</p>
+          </article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title">0</p>
+            <p class="subtitle">Created Events</p>
+          </article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child box">
+            <p class="title">0</p>
+            <p class="subtitle">Upcoming Events</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

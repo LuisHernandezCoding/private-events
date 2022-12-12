@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_scope :user do
     get "users", to: "devise/sessions#new"
-    get 'users_otp/settings'
+    get '2fa/settings', to: 'users_otp#settings', as: 'users_otp_settings'
     patch 'users_otp/enable', to: 'users_otp#enable', as: 'enable_2fa'
     patch 'users_otp/disable', to: 'users_otp#disable', as: 'disable_2fa'
   end
@@ -13,20 +13,28 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  root "pages#home"
-  get "about", to: "pages#about"
-  get "contact", to: "pages#contact"
+  root 'pages#home'
+  get 'about', to: 'pages#about'
+  get 'contact', to: 'pages#contact'
   get 'test', to: 'pages#test'
 
-  # Index page for all users:
-  get 'users/profiles', to: 'profiles#index', as: 'profiles'
+  # # Index page for all users:
+  # get 'profiles', to: 'profiles#index', as: 'profiles'
 
-  # show profile page for a user:
-  get 'users/:id/profile', to: 'profiles#show', as: 'user_profile'
+  # # new profile page for a user:
+  # get 'profiles/new', to: 'profiles#new', as: 'new_profile'
 
-  # edit profile page for a user:
-  get 'users/:id/profile/edit', to: 'profiles#edit', as: 'edit_profile'
+  # # create profile page for a user
+  # post 'profiles', to: 'profiles#create', as: 'create_profile'
 
-  # update profile page for a user:
-  patch 'users/:id/update', to: 'profiles#update', as: 'update_profile'
+  # # show profile page for a user:
+  # get 'profiles/:username', to: 'profiles#show', as: 'user_profile'
+
+  # # edit profile page for a user:
+  # get 'profiles/:username/edit', to: 'profiles#edit', as: 'edit_profile'
+
+  # # update profile page for a user:
+  # patch 'profiles/:username/update', to: 'profiles#update', as: 'update_profile'
+  resources :profiles, only: %w[index new create show edit], param: :username
+  resources :profiles, only: %w[update]
 end

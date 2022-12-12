@@ -6,27 +6,40 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @profile = Profile.find_by(username: params[:username])
+  end
+
+  def new
+    @profile = Profile.new
+  end
+
+  def create
+    @profile = Profile.new(profile_params)
+    @profile.user = current_user
+
+    if @profile.save
+      redirect_to profile_path(@profile.username), notice: 'Profile Created!'
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def edit
-    # check if the user is the owner of the profile
-    if current_user.id == params[:id].to_i
-      @user = User.find(params[:id])
-      @profile = Profile.new
+    if current_user.profile.username == params[:username].to_s
+      @profile = Profile.find_by(username: params[:username])
     else
       redirect_to root_path, notice: 'You are not allowed to edit this profile'
     end
   end
 
   def update
-    @user = User.find(params[:id])
-    @profile = Profile.new(profile_params)
-    @profile.user_id = @user.id
-    if @profile.save
-      redirect_to user_profile_path(@user), notice: 'Profile updated successfully'
+    @profile = Profile.find(params[:id])
+
+    if @profile.update(profile_params)
+      redirect_to profile_path(@profile.username), notice: 'Profile updated successfully'
     else
-      render 'edit', notice: 'Profile not updated', locals: { user: @user, profile: @profile }
+      render :edit, notice: 'Profile not updated', locals: { user: @profile.user, profile: @profile },
+                    status: :unprocessable_entity
     end
   end
 
