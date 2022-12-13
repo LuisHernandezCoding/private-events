@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_12_083647) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_13_082624) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "events", force: :cascade do |t|
     t.bigint "user_id"
@@ -26,6 +32,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_12_083647) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "interests", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_interests_on_category_id"
+  end
+
+  create_table "profile_interests", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.bigint "interest_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["interest_id"], name: "index_profile_interests_on_interest_id"
+    t.index ["profile_id"], name: "index_profile_interests_on_profile_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -64,5 +87,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_12_083647) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "interests", "categories"
+  add_foreign_key "profile_interests", "interests"
+  add_foreign_key "profile_interests", "profiles"
   add_foreign_key "profiles", "users"
 end

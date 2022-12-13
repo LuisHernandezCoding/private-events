@@ -1,5 +1,9 @@
 class Profile < ApplicationRecord
   belongs_to :user
+  has_many :profile_interests
+  has_many :interests, through: :profile_interests, dependent: :destroy
+  has_many :categories, through: :interests
+  has_many :events
 
   validates :username, :first_name, :last_name, :gender, :title, :birthday, presence: true
   validates :username, length: { in: 3..20 }

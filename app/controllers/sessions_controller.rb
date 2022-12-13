@@ -5,7 +5,6 @@ class SessionsController < Devise::SessionsController
     user = self.resource = find_user
     return unless user
 
-
     if user_params[:otp_attempt].present?
       auth_with_2fa(user)
     elsif user.valid_password?(user_params[:password]) && user.otp_required_for_login
