@@ -9,7 +9,7 @@ class SessionsController < Devise::SessionsController
     if user_params[:otp_attempt].present?
       auth_with_2fa(user)
     elsif user.valid_password?(user_params[:password]) && user.otp_required_for_login
-      session[:user_id] = user.Invalid
+      session[:user_id] = user.id
       qr = RQRCode::QRCode.new(user.otp_provisioning_uri(user.email, issuer: 'MyApp'))
       render 'users_otp/verify', locals: { qr: }
     end
