@@ -1,7 +1,15 @@
 class ProfileInterestsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :check_profile!
+
   def create
-    Profile.find_by(username: params[:username]).profile_interests.new(interest_id: params[:interest_id]).save
-    redirect_back(fallback_location: root_path)
+    profile = Profile.find_by(username: params[:username])
+    interest = profile.profile_interests.new(interest_id: params[:interest_id])
+    if interest.save 
+      redirect_back(fallback_location: root_path)
+    else
+      redirect_to profile_path(profile.username), notice: 'Interest not added'
+    end
   end
 
   def destroy
@@ -27,5 +35,13 @@ class ProfileInterestsController < ApplicationController
     end
 
     redirect_to profile_path(@profile.username)
+  end
+
+  private
+
+  def check_profile!
+    return if current_user.profile.username == params[:username].to_s
+
+    redirect_to root_path, alert: 'You are not authorized to do that'
   end
 end
