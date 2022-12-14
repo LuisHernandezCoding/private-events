@@ -17,4 +17,9 @@ Rails.application.routes.draw do
 
   resources :profiles, only: %w[index new create show edit], param: :username
   resources :profiles, only: %w[update]
+
+  get 'profiles/:username/interests/edit', to: 'profile_interests#edit', as: 'edit_profile_interests'
+  patch 'profiles/:username/interests/', to: 'profile_interests#update', as: 'update_profile_interests'
+  post 'profiles/:username/interests/', to: 'profile_interests#create', as: 'create_profile_interests'
+  delete 'profiles/:username/interests/', to: 'profile_interests#destroy', as: 'destroy_profile_interests'
 end

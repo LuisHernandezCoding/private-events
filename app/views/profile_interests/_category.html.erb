@@ -1,0 +1,20 @@
+<div class="box">
+  <h1 class="title has-text-weight-bold has-text-primary is-size-4"><%= category.name %></h1>
+  <div class="columns is-multiline">
+
+    <% @interests.where(category_id: category.id).each do |interest| %> 
+      <div id="ck-button">
+        <label>
+          <div>
+            <input type="checkbox" value="1" name="profile_interests[<%= interest.id %>]" 
+                    <%= @profile.interests.include?(interest) ? "checked" : "" %>/>
+            <span class="button is-small is-info m-1 rounded is-outlined">
+            <%= interest.name %></span>
+          </div>
+        </label>
+      </div>
+    <% end %>
+
+  </div>
+  
+</div>

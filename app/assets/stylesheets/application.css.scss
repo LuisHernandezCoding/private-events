@@ -15,3 +15,41 @@
  */
 @import "bulma";
 @import "font-awesome";
+
+.leftbar {
+  position: sticky;
+  display: inline-block;
+  vertical-align: top;
+  max-height: 100vh;
+  overflow-y: auto;
+  width: 200px;
+  top: 0;
+  bottom: 0;
+  padding: 30px;
+}
+
+.leftbar_content {
+  display: inline-block;
+}
+
+#ck-button {
+  float:left;
+  word-break: break-all;
+}
+
+#ck-button label {
+  float: left;
+}
+
+#ck-button label input {
+  display: contents;
+}
+
+#ck-button input:checked + span {
+  background-color: $info-dark;
+  color:#fff;
+}
+
+div label input {
+  margin-right:100px;
+}
