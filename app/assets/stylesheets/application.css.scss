@@ -28,12 +28,11 @@
   padding: 30px;
 }
 
-.leftbar_content {
-  display: inline-block;
-}
-
-#ck-button {
-  word-break: break-all;
+@media screen and (max-width: 768px) {
+  .leftbar {
+    position: initial;
+    display: block;
+  }
 }
 
 #ck-button label input {
@@ -43,8 +42,4 @@
 #ck-button input:checked + span {
   background-color: $info-dark;
   color:#fff;
-}
-
-div label input {
-  margin-right:100px;
 }

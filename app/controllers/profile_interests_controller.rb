@@ -18,7 +18,8 @@ class ProfileInterestsController < ApplicationController
 
   def update
     @profile = Profile.find_by(username: params[:username])
-    @profile.profile_state = 2 if @profile.profile_state <= 1
+    @profile.profile_state = 'interested' if @profile.profile_state == 'created'
+    @profile.save
     @profile.profile_interests.destroy_all
 
     params[:profile_interests].each do |interest|

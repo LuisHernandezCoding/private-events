@@ -1,0 +1,15 @@
+<p class="subtitle has-text-weight-bold has-text-primary is-size-4">Want some changes?</p>
+<p class="subtitle is-hidden-mobile">
+  Thank you for taking the time to provide feedback on the events we offer. 
+  Your input is invaluable in helping us plan future events that will be engaging and interesting for our community.
+  We appreciate your willingness to share your thoughts and preferences, 
+  and we will use this information to make sure our events are as enjoyable as possible.
+</p>
+<div class="field is-grouped is-grouped-centered">
+  <div class="control">
+    <%= link_to 'Go Back', profile_path(current_user.profile.username), class: "button is-medium" %>
+  </div>
+  <div class="control">
+    <button class="button is-primary is-medium" type="submit">Submit</button>
+  </div>
+</div>

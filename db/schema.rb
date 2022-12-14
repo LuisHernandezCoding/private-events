@@ -69,7 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_14_025744) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "public_profile", default: false
-    t.integer "profile_state", default: 0
+    t.string "profile_state", default: "none"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 

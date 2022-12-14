@@ -18,7 +18,7 @@ class ProfilesController < ApplicationController
     @profile.user = current_user
 
     if @profile.save
-      @profile.profile_state = 1
+      @profile.profile_state = 'created'
       redirect_to profile_path(@profile.username), notice: 'Profile Created!'
     else
       render :new, status: :unprocessable_entity

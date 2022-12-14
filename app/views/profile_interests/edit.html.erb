@@ -4,8 +4,12 @@
     <aside class="menu leftbar column is-12-mobile is-4">
       <br class="is-hidden-mobile">
       <br class="is-hidden-mobile">
-      <div class="box is-fixed-top is-hidden-mobile">
-        <%= render partial: "step_one" %>
+      <div class="box">
+        <% if @profile.profile_state == 'created' %>
+          <%= render partial: "step", locals: { step: @profile.profile_state } %>
+        <% else %>
+          <%= render partial: "interests" %>
+        <% end %>
       </div>
     </aside>
     <div class="column is-8 leftbar_content content">
