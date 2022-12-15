@@ -1,4 +1,18 @@
-<% if step == 'created' %>
+<% if step == 'none' %>
+  <p class="title has-text-weight-bold has-text-primary is-size-4">Be a Part of the Process: Select Your username</p>
+  <p class="subtitle is-6 has-text-weight-bold is-size-7">
+    Be a Part of the Decision-Making Process and Tell Us What You Want to See!
+  </p>
+  <br>
+  <p class="subtitle is-hidden-mobile">
+    To begin, please provide us with your username, first and last name. 
+    This will allow us to personalize your profile page and give you access to all of our features.
+    Next, please read and accept our terms of service and privacy policy.
+  </p>
+  <br>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Step 1 of 3</p>
+  <progress class="progress is-primary" value="33" max="100"></progress>
+<% elsif step == 'created' %>
   <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Help Us Choose the Best Events for You!.</p>
   <br>
   <p class="subtitle is-hidden-mobile">
@@ -6,12 +20,12 @@
     Please take a few minutes to select the event tags that you would like to see more often. Your feedback will help us plan future events that everyone will love!
   </p>
   <br>
-  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Step 1 of 3</p>
-  <progress class="progress is-primary" value="33" max="100"></progress>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Step 2 of 3</p>
+  <progress class="progress is-primary" value="66" max="100"></progress>
   <br>
   <div class="field is-grouped is-grouped-centered">
     <div class="control">
-      <%= button_to 'Omit', profile_path(current_user.profile.username), method: :get, class: "button is-medium" %>
+      <%= link_to 'Skip', profile_path(current_user.profile.username), class: "button is-medium" %>
     </div>
     <div class="control">
       <button class="button is-primary is-medium" type="submit">Next</button>

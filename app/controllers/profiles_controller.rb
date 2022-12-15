@@ -10,6 +10,8 @@ class ProfilesController < ApplicationController
   end
 
   def new
+    return redirect_to root_path, alert: 'You already have a profile' if current_user.profile.present?
+
     @profile = Profile.new
   end
 
@@ -19,7 +21,8 @@ class ProfilesController < ApplicationController
 
     if @profile.save
       @profile.profile_state = 'created'
-      redirect_to profile_path(@profile.username), notice: 'Profile Created!'
+      @profile.save
+      redirect_to edit_profile_interests_path(@profile.username), notice: 'Profile created successfully'
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +32,7 @@ class ProfilesController < ApplicationController
     if current_user.profile.username == params[:username].to_s
       @profile = Profile.find_by(username: params[:username])
     else
-      redirect_to root_path, notice: 'You are not allowed to edit this profile'
+      redirect_to root_path, alert: 'You are not allowed to edit this profile'
     end
   end
 
@@ -39,9 +42,13 @@ class ProfilesController < ApplicationController
     if @profile.update(profile_params)
       redirect_to profile_path(@profile.username), notice: 'Profile updated successfully'
     else
-      render :edit, notice: 'Profile not updated', locals: { user: @profile.user, profile: @profile },
+      render :edit, alert: 'Profile not updated', locals: { user: @profile.user, profile: @profile },
                     status: :unprocessable_entity
     end
+  end
+
+  def ubication
+    @profile = Profile.find(params[:id])
   end
 
   def self.titles
