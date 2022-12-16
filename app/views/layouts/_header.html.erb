@@ -22,10 +22,15 @@
             <a class="navbar-item" href="">Past Events</a>
           </div>
         </div>
-        <a class="navbar-item" href="<%= contact_path %>">Contact</a>
-        <a class="navbar-item" href="<%= about_path %>">About</a>
-        <a class="navbar-item" href="<%= about_path %>">TOS</a>
-        <a class="navbar-item" href="<%= about_path %>">Privacy</a>
+        <div class="navbar-item has-dropdown is-hoverable" href="">
+          <a class="navbar-link" href="">Info</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="<%= contact_path %>">Contact</a>
+            <a class="navbar-item" href="<%= about_path %>">About</a>
+            <a class="navbar-item" href="<%= tos_path %>">TOS</a>
+            <a class="navbar-item" href="<%= privacy_path %>">Privacy</a>
+          </div>
+        </div>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">

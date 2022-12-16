@@ -14,7 +14,10 @@ Rails.application.routes.draw do
   root 'pages#home'
   get 'about', to: 'pages#about'
   get 'contact', to: 'pages#contact'
-  get 'test', to: 'pages#test'
+  post 'contact', to: 'pages#contact_create'
+  get 'contact_success', to: 'pages#contact_success'
+  get 'TOS', to: 'pages#tos', as: 'tos'
+  get 'privacy', to: 'pages#privacy'
 
   resources :profiles, only: %w[index new create show edit], param: :username
   resources :profiles, only: %w[update]
