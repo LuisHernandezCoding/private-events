@@ -21,12 +21,6 @@ class Profile < ApplicationRecord
   validates :birthday, allow_blank: true, format: { with: /\A[1-2][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\z/,
                                                     message: 'must be a valid date (yyyy-mm-dd)' }
 
-  validates :country, allow_blank: true, format: { with: /\A[a-zA-Z]+\z/, message: 'only allows letters' }
-  validates :city, allow_blank: true, format: { with: /\A[a-zA-Z]+\z/, message: 'only allows letters' }
-  validates :state, allow_blank: true, format: { with: /\A[a-zA-Z]+\z/, message: 'only allows letters' }
-  validates :street, allow_blank: true, format: { with: /\A[a-zA-Z]+\z/, message: 'only allows letters' }
-  validates :house_number, allow_blank: true, format: { with: /\A[0-9]+\z/, message: 'only allows numbers' }
-
   validates :phone, allow_blank: true, length: { is: 10 }
   validates :phone, allow_blank: true, numericality: { only_integer: true }
   validates :phone, allow_blank: true, format: { with: /\A[0-9]+\z/, message: 'only allows numbers' }

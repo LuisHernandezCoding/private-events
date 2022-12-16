@@ -1,0 +1,15 @@
+<p class="subtitle has-text-weight-bold has-text-primary is-size-4">Want to change your location?</p>
+<p class="subtitle is-hidden-mobile">
+  We understand that our users may have to move to different locations over time. 
+  We want to make sure that the events we offer are accessible to all our users, 
+  no matter where they are. 
+  Please let us know if your location has changed so that we can update our records and ensure that you can still attend our events.
+</p>
+<div class="field is-grouped is-grouped-centered">
+  <div class="control">
+    <%= link_to 'Go Back', profile_path(current_user.profile.username), class: "button is-medium" %>
+  </div>
+  <div class="control">
+    <button class="button is-primary is-medium" type="submit" name="next" value="next">Submit</button>
+  </div>
+</div>

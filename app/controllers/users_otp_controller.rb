@@ -49,4 +49,9 @@ class UsersOtpController < Devise::SessionsController
       redirect_to users_otp_settings_path
     end
   end
+
+  def ask
+    @profile = Profile.find_by(username: params[:username])
+    return redirect_to profile_path(@profile.username) if @profile.profile_state == 'completed'
+  end
 end

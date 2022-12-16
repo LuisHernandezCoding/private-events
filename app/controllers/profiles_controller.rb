@@ -63,6 +63,22 @@ class ProfilesController < ApplicationController
     }
   end
 
+  def next_step
+    @profile = Profile.find_by(username: params[:username])
+    @profile.profile_state = 'completed' if @profile.profile_state == 'located'
+    @profile.profile_state = 'located' if @profile.profile_state == 'interested'
+    @profile.profile_state = 'interested' if @profile.profile_state == 'created'
+    @profile.save
+    redirect_back(fallback_location: root_path)
+  end
+
+  def privacity
+    @profile = Profile.find_by(username: params[:username])
+    @profile.public_profile = !@profile.public_profile
+    @profile.save
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def profile_params

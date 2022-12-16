@@ -43,3 +43,11 @@
   background-color: $info-dark;
   color:#fff;
 }
+
+.break-anywhere {
+  line-break: anywhere;
+}
+
+.break-word {
+  word-break: break-word;
+}

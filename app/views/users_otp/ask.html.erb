@@ -1,0 +1,38 @@
+<div class="columns">
+  <aside class="menu leftbar column is-12-mobile is-4">
+    <br class="is-hidden-mobile">
+    <br class="is-hidden-mobile">
+    <div class="box">
+      <%= render partial: "layouts/step", locals: { step: current_user.profile.profile_state } %>
+    </div>
+  </aside>
+  <div class="column is-8 leftbar_content content">
+    <br class="is-hidden-mobile">
+    <h1 class="title has-text-weight-bold has-text-primary is-size-3">Two-factor authentication</h1>
+    <div class="box">
+      <p class="subtitle is-size-5">
+        Two-factor authentication adds an additional layer of security to your account.
+        It requires you to enter a code in addition to your password when you log in.
+        This code is sent to your
+        <!-- Lets add a link to the Google Authenticator app -->
+        <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank"> Google Authenticator </a>
+        app on your phone.
+      </p>
+      <p class="subtitle is-size-5">
+        You can either activate two-factor authentication now or skip this step and activate it later.
+      </p>
+      <p class="subtitle is-size-6 has-text-weight-semibold">
+        The 2FA its a mechanism that will protect your account from unauthorized access and further protect your data.
+        we highly recommend that you activate it.
+      </p>
+      <div class="field is-grouped is-grouped-centered">
+        <div class="control">
+          <%= button_to "Skip", next_step_path(@profile.username), method: :patch, class: "button is-pulled-left" %>   
+        </div>
+        <div class="control">
+          <%= button_to "Activate", users_otp_settings_path, method: :get, class: "button is-primary is-pulled-right" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

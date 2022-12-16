@@ -1,0 +1,96 @@
+<% if step == 'none' %>
+  <p class="title has-text-weight-bold has-text-primary is-size-4">Be a Part of the Process: Select Your username</p>
+  <p class="subtitle is-6 has-text-weight-bold is-size-7">
+    Be a Part of the Decision-Making Process and Tell Us What You Want to See!
+  </p>
+  <br>
+  <p class="subtitle is-hidden-mobile">
+    To begin, please provide us with your username, first and last name. 
+    This will allow us to personalize your profile page and give you access to all of our features.
+    Next, please read and accept our terms of service and privacy policy.
+  </p>
+  <br>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Step 1 of 4</p>
+  <progress class="progress is-primary" value="20" max="100"></progress>
+<% elsif step == 'created' %>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Help Us Choose the Best Events for You!.</p>
+  <br>
+  <p class="subtitle is-hidden-mobile">
+    We want to make sure that the events we offer are interesting and engaging for our community.
+    Please take a few minutes to select the event tags that you would like to see more often. Your feedback will help us plan future events that everyone will love!
+  </p>
+  <br>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Step 2 of 4</p>
+  <progress class="progress is-primary" value="45" max="100"></progress>
+  <br>
+  <div class="field is-grouped is-grouped-centered">
+    <div class="control">
+      <button class="button is-medium" type="submit" name="skip" value="skip">
+        Skip
+      </button>      
+    </div>
+    <div class="control">
+      <button class="button is-primary is-medium" type="submit" name="next" value="next">
+        Next
+      </button>
+    </div>
+  </div>
+<% elsif step == 'interested' %>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">
+    Now, Tell us where are you located?
+  </p>
+  <p class="subtitle is-hidden-mobile">
+    To help us show you the most relevant events happening in your area, we need to know your country, state and city.
+    You can enter your ubication and we'll use this information to personalize the events shown to you on the app.
+  </p>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Step 3 of 4</p>
+  <% if current_user.profile.country.nil? %>
+    <progress class="progress is-primary" value="70" max="100"></progress>
+  <% else %>
+    <% if current_user.profile.state.nil? %>
+      <progress class="progress is-primary" value="80" max="100"></progress>
+    <% else %>
+      <% if current_user.profile.city.nil? %>
+        <progress class="progress is-primary" value="90" max="100"></progress>
+      <% end %>
+    <% end %>
+  <% end %>
+  <br>
+  <div class="field is-grouped is-grouped-centered">
+    <div class="control">
+      <button class="button is-medium" type="submit" name="skip" value="skip">
+        Skip
+      </button>      
+    </div>
+    <div class="control">
+      <button class="button is-primary is-medium" type="submit" name="next" value="next">
+        Next
+      </button>
+    </div>
+  </div>
+<% elsif step == 'located' %>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">
+    For the final step, secure your account by 2FA.
+  </p>
+  <p class="subtitle is-hidden-mobile">
+    To help secure your account, we recommend enabling 2FA. This will help protect your account from unauthorized access.
+  </p>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Step 4 of 4</p>
+  <progress class="progress is-primary" value="95" max="100"></progress>
+  <br>
+<% elsif step == 'completed' %>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">
+    You're all set!
+  </p>
+  <p class="subtitle is-hidden-mobile">
+    Now you can start using the app and start planning your next event.
+  </p>
+  <p class="subtitle has-text-weight-bold has-text-primary is-size-4">Step 4 of 4</p>
+  <progress class="progress is-primary" value="100" max="100"></progress>
+  <br>
+  <div class="field is-grouped is-grouped-centered">
+    <div class="control">
+      <%= link_to 'Go to the app', root_path, class: 'button is-primary is-medium' %>
+    </div>
+  </div>
+<% end %>

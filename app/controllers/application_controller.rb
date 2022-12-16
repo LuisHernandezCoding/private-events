@@ -20,4 +20,10 @@ class ApplicationController < ActionController::Base
                    (controller_name == 'profiles' && action_name == 'create') ||
                    (controller_name == 'sessions' && action_name == 'destroy')
   end
+
+  def check_profile!
+    return if current_user.profile.username == params[:username].to_s
+
+    redirect_to root_path, alert: 'You are not authorized to do that'
+  end
 end

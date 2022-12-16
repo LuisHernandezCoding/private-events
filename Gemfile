@@ -91,3 +91,6 @@ gem 'letter_opener', group: :development
 
 # Use rqrcode for QR codes
 gem 'rqrcode'
+
+# Use city-state for country and state selection
+gem 'city-state'

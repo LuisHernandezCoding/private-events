@@ -6,7 +6,7 @@
       <br class="is-hidden-mobile">
       <div class="box">
         <% if @profile.profile_state == 'created' %>
-          <%= render partial: "step", locals: { step: @profile.profile_state } %>
+          <%= render partial: "layouts/step", locals: { step: @profile.profile_state } %>
         <% else %>
           <%= render partial: "interests" %>
         <% end %>
@@ -19,12 +19,12 @@
       <br>
       <div class="columns is-multiline">
         <div class="column is-half">
-          <% @categories.order(:name).first(@categories.length / 2).each do |category| %>
+          <% @categories.first(@categories.length / 2).each do |category| %>
             <%= render partial: "category", locals: { category: category } %>
           <% end %>
         </div>
         <div class="column is-half">
-          <% @categories.order(:name).last(@categories.length / 2).each do |category| %>
+          <% @categories.last(@categories.length / 2).each do |category| %>
             <%= render partial: "category", locals: { category: category } %>
           <% end %>
         </div>

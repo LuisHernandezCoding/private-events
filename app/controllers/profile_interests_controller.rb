@@ -25,23 +25,26 @@ class ProfileInterestsController < ApplicationController
   end
 
   def update
+    if params[:profile_interests].nil? && params['next'] == 'next'
+      redirect_to edit_profile_interests_path(params[:username]), alert: 'Please select at least one interest'
+      return
+    end
+
     @profile = Profile.find_by(username: params[:username])
     @profile.profile_state = 'interested' if @profile.profile_state == 'created'
     @profile.save
     @profile.profile_interests.destroy_all
 
-    params[:profile_interests].each do |interest|
-      ProfileInterest.new(interest_id: interest[0], profile_id: @profile.id).save
+    if params['next'] == 'next'
+      params[:profile_interests].each do |interest|
+        ProfileInterest.new(interest_id: interest[0], profile_id: @profile.id).save
+      end
     end
 
-    redirect_to profile_path(@profile.username)
-  end
-
-  private
-
-  def check_profile!
-    return if current_user.profile.username == params[:username].to_s
-
-    redirect_to root_path, alert: 'You are not authorized to do that'
+    if @profile.country.nil?
+      redirect_to country_path(@profile.username)
+    else
+      redirect_to profile_path(@profile.username)
+    end
   end
 end
