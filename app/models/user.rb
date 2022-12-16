@@ -5,6 +5,4 @@ class User < ApplicationRecord
   devise :registerable, :recoverable, :rememberable, :validatable
 
   has_one :profile, dependent: :destroy
-
-  has_many :events, dependent: :destroy
 end
