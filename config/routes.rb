@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'contact', to: 'pages#contact'
   post 'contact', to: 'pages#contact_create'
   get 'contact_success', to: 'pages#contact_success'
+  delete 'contact/:id', to: 'pages#contact_destroy', as: 'contact_destroy'
   get 'TOS', to: 'pages#tos', as: 'tos'
   get 'privacy', to: 'pages#privacy'
 

@@ -1,55 +1,97 @@
 <div class="columns is-multiline is-mobile is-centered">
   <div class="column is-8 is-centered">
     <div class="box">
-      <div class="header-content">
-        <div class="has-text-centered">
-          <h1 class="title">
-            Contact
-          </h1>
+      <% if @profile.is_admin %>
+        <div class="header-content">
+          <div class="has-text-centered">
+            <h1 class="title">
+              Users Contacts
+            </h1>
+          </div>
+          <br>
         </div>
-        <br>
-      </div>
-      <div class="subheader-content has-text-centered">
-        <p>
-          <a class="button is-primary is-outlined" href="https://github.com/LuisHernandezCoding">GitHub</a>
-          <a class="button is-primary is-outlined" href="https://linkedin.com/in/luis-hernandez-coding">LinkedIn</a>
-        </p>
-      </div>
-      <hr>
-      <div class="single-content">
-        <%= form_with model: @contact, url: contact_path, method: :post do |f| %>
-          <div class="field">
-            <%= f.label :name, class: "label" %>
-            <p class="control">
-              <%= f.text_field :name, class: "input", value: @profile.username, disabled: true %>
-            </p>
-          </div>
-  
-          <div class="field">
-            <%= f.label :email, class: "label" %>
-            <p class="control">
-              <%= f.text_field :email, class: "input", value: @profile.user.email, disabled: true %>
-            </p>
-          </div>
-  
-          <div class="field">
-            <%= f.label :content, class: "label" %>
-            <p class="control">
-              <%= f.text_area :content, class: "textarea", placeholder: "content" %>
-              <% if @contact.errors.any? %>
-                <p class="help is-danger"><%= @contact.errors.full_messages_for(:content).first %></p>
-              <% end %>
-            </p>
-          </div>
-  
-          <div class="field is-grouped is-grouped-right">
-            <p class="control">
-              <p><a class="button" href="<%= root_path %>">Back to Home</a></p> &nbsp; &nbsp;
-              <button class="button is-danger">Send</button>
-            </p>
+        <hr>
+        <% if !@contacts.empty? %>
+          <% @contacts.each do |contact| %>
+            <div class="single-content">
+              <div class="columns is-mobile is-multiline">
+                <div class="column p-2">
+                  <p class="has-text-left break-word"><%= contact.content %></p>
+                </div>
+              </div>
+              <div class="columns is-mobile is-multiline">
+                <div class="column">
+                  <p class="has-text-right is-size-7">
+                    <strong>Created at:</strong> <%= contact.created_at.strftime("%d/%m/%Y %H:%M") %> &nbsp; &nbsp;
+                    <strong>Userame:</strong> <%= contact.name %> &nbsp; &nbsp;
+                    <strong>Email:</strong> <%= contact.email %> &nbsp; &nbsp;
+                    <%= button_to "Delete", contact_destroy_path(contact), method: :delete, data: { confirm: "Are you sure?" }, class: "button is-danger is-small" %>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <hr>
+          <% end %>
+        <% else %>
+          <div class="single-content">
+            <div class="columns is-mobile is-multiline">
+              <div class="column p-2">
+                <p class="has-text-centered">No contacts yet</p>
+              </div>
+            </div>
           </div>
         <% end %>
-      </div>
+      <% else %>
+        <div class="header-content">
+          <div class="has-text-centered">
+            <h1 class="title">
+              Contact
+            </h1>
+          </div>
+          <br>
+        </div>
+        <div class="subheader-content has-text-centered">
+          <p>
+            <a class="button is-primary is-outlined" href="https://github.com/LuisHernandezCoding">GitHub</a>
+            <a class="button is-primary is-outlined" href="https://linkedin.com/in/luis-hernandez-coding">LinkedIn</a>
+          </p>
+        </div>
+        <hr>
+        <div class="single-content">
+          <%= form_with model: @contact, url: contact_path, method: :post do |f| %>
+            <div class="field">
+              <%= f.label :name, class: "label" %>
+              <p class="control">
+                <%= f.text_field :name, class: "input", value: @profile.username, disabled: true %>
+              </p>
+            </div>
+    
+            <div class="field">
+              <%= f.label :email, class: "label" %>
+              <p class="control">
+                <%= f.text_field :email, class: "input", value: @profile.user.email, disabled: true %>
+              </p>
+            </div>
+    
+            <div class="field">
+              <%= f.label :content, class: "label" %>
+              <p class="control">
+                <%= f.text_area :content, class: "textarea", placeholder: "content" %>
+                <% if @contact.errors.any? %>
+                  <p class="help is-danger"><%= @contact.errors.full_messages_for(:content).first %></p>
+                <% end %>
+              </p>
+            </div>
+    
+            <div class="field is-grouped is-grouped-right">
+              <p class="control">
+                <p><a class="button" href="<%= root_path %>">Back to Home</a></p> &nbsp; &nbsp;
+                <button class="button is-danger">Send</button>
+              </p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

@@ -7,6 +7,7 @@ class PagesController < ApplicationController
   def contact
     @contact = Contact.new
     @profile = current_user.profile
+    @contacts = Contact.all if @profile.is_admin
   end
 
   def contact_create
@@ -17,6 +18,14 @@ class PagesController < ApplicationController
     else
       render :contact, alert: 'Message not sent', status: :unprocessable_entity, locals: { profile: @profile }
     end
+  end
+
+  def contact_destroy
+    return unless current_user.profile.is_admin
+
+    @contact = Contact.find(params[:id])
+    @contact.destroy
+    redirect_to contact_path, notice: 'Message deleted'
   end
 
   def contact_success; end
