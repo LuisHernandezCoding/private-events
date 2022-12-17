@@ -1,0 +1,126 @@
+<div class="box">
+  <%= form_with(model: event) do |form| %>
+    <% if event.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+  
+        <ul>
+          <% event.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        <%= form.text_field :name, class: "input" %>
+      </div>
+    </div>
+  
+    <div class="field">
+      <label class="label">Description</label>
+      <div class="control">
+        <%= form.text_area :description, rows: 5, cols: 24, class: "textarea" %>
+      </div>
+    </div>
+  
+    <div class="field">
+      <label class="label">Date</label>
+      <div class="control">
+        <%= form.date_field :date, value: Date.today, class: "input" %>
+      </div>
+    </div>
+  
+    <div class="field">
+      <label class="label">Hour</label>
+      <div class="control">
+        <%= form.time_field :hour, value: Time.now, class: "input" %>
+      </div>
+    </div>
+  
+    <div class="field">
+      <label class="label">Country</label>
+      <div class="control">
+        <%= form.select :country, CS.countries.map { |k, v| [v, k] }, prompt: "-- select an option --", class: "select" %>
+      </div>
+    </div>
+  
+    <div class="field">
+      <label class="label">State</label>
+      <div class="control">
+        <%= form.select :state, [], prompt: "-- select an option --", disabled: true, class: "select" %>
+      </div>
+    </div>
+  
+    <div class="field">
+      <label class="label">City</label>
+      <div class="control">
+        <%= form.select :city, [], prompt: "-- select an option --", disabled: true, class: "select" %>
+      </div>
+    </div>
+  
+    <div class="field">
+      <label class="label">Virtual/Presencial</label>
+      <div class="control">
+        <%= form.select :is_virtual?, ["Both", "Virtual", "Presencial"], class: "select" %>
+      </div>
+    </div>
+  
+    <div class="field">
+      <div class="control">
+        <%= form.submit "Submit", class: "button is-primary" %>
+      </div>
+    </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+  // disable state and city select only if they are empty
+    $('select[name="event[state]"]').prop('disabled', true);
+    $('select[name="event[city]"]').prop('disabled', true);
+    
+    $('select[name="event[country]"]').change(function(){
+      get_states();
+    });
+    $('select[name="event[state]"]').change(function(){
+      get_cities();
+    });
+
+    get_states = function() {
+      var country = $('select[name="event[country]"]').val();
+      if(country){
+        $.ajax({
+          url: '/states/'+country,
+          type: "GET",
+          dataType: "json",
+          success:function(data) {
+            $('select[name="event[state]"]').empty();
+            $('select[name="event[state]"]').prop('disabled', false);
+            $.each(data, function(key, value) {
+              $('select[name="event[state]"]').append('<option value="'+ key +'">'+ value +'</option>');
+            });
+          }
+        });
+      }
+    }
+
+    get_cities = function() {
+      var state = $('select[name="event[state]"]').val();
+      if(state){
+        $.ajax({
+          url: '/cities/'+state,
+          type: "GET",
+          dataType: "json",
+          success:function(data) {
+            $('select[name="event[city]"]').empty();
+            $('select[name="event[city]"]').prop('disabled', false);
+            $.each(data, function(key, value) {
+              $('select[name="event[city]"]').append('<option value="'+ key +'">'+ value +'</option>');
+            });
+          }
+        });
+      }
+    }
+  </script>
+  <% end %>
+</div>

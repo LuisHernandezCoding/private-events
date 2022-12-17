@@ -109,11 +109,25 @@
                     <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Full name</td>
                     <td class="level-right"><%= @profile.first_name %> <%= @profile.last_name %></td>
                   </tr>
+                  <% if @profile.country.present? %>
+                    <tr>
+                      <td width="5%"><i class="fa fa-thumbtack"></td>
+                      <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">State</td>
+                      <td class="level-right"><%= CS.countries[@profile.country.to_sym] %></td>
+                    </tr>
+                  <% end %>
+                  <% if @profile.state.present? %>
+                    <tr>
+                      <td width="5%"><i class="fa fa-thumbtack"></td>
+                      <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">State</td>
+                      <td class="level-right"><%= CS.states(@profile.country)[@profile.state.to_sym] %></td>
+                    </tr>
+                  <% end %>
                   <% if @profile.city.present? %>
                     <tr>
                       <td width="5%"><i class="fa fa-city"></td>
                       <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">City</td>
-                      <td class="level-right"><%= @profile.city %></td>
+                      <td class="level-right"><%= CS.cities(@profile.state.to_sym, @profile.country.to_sym)[@profile.city.to_i] %></td>
                     </tr>
                   <% end %>
                   <% if !@profile.birthday.nil? %>
@@ -153,6 +167,102 @@
         <p class="title is-5">This profile is private!</p>
         <p class="subtitle is-6">Only authorized users can see this content.</p>
       </div>
+    <% end %>
+    <% if @profile.organizer.present? && (owner? || current_user.profile.present? && current_user.profile.is_admin) %>
+      <br>
+      <div class="card events-card">
+        <header class="card-header">
+          <p class="card-header-title">
+            Organizer Information
+          </p>
+        </header>
+        <div class="card-table">
+          <div class="content">
+            <table class="table is-fullwidth is-striped">
+              <tbody>
+                <tr>
+                  <td width="5%"><i class="fa fa-level-up-alt"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Experience</td>
+                  <td class="level-right"><%= @profile.organizer.experience %></td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-users"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Team</td>
+                  <td class="level-right"><%= @profile.organizer.team %></td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-calendar-check"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Expectation</td>
+                  <td class="level-right"><%= @profile.organizer.events_quantity_expectation %> events</td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-calendar-check"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Magnitude</td>
+                  <td class="level-right"><%= @profile.organizer.events_size_expectation %> people</td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-ticket-alt"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Ticketing</td>
+                  <td class="level-right"><div class="button is-small"><%= @profile.organizer.preferences_ticketing ? "Yes" : "No" %></div></td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-database"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Data</td>
+                  <td class="level-right"><div class="button is-small"><%= @profile.organizer.preferences_data_collection ? "Yes" : "No" %></div></td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-bullhorn"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Publicity</td>
+                  <td class="level-right"><div class="button is-small"><%= @profile.organizer.preferences_publicity ? "Yes" : "No" %></div></td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-chart-line"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Analytics</td>
+                  <td class="level-right"><div class="button is-small"><%= @profile.organizer.preferences_analytics ? "Yes" : "No" %></div></td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-star"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Reputation</td>
+                  <td class="level-right"><div class="button is-small"><%= @profile.organizer.preferences_reputation ? "Yes" : "No" %></div></td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-bullhorn"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Marketing</td>
+                  <td class="level-right"><div class="button is-small"><%= @profile.organizer.preferences_marketing ? "Yes" : "No" %></div></td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-check"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Status</td>
+                  <td class="level-right">
+                    <% if @profile.organizer.is_active %>
+                      <div class="button is-small is-success">Active</div>
+                    <% else %>
+                      <div class="button is-small is-danger">Inactive</div>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="5%"><i class="fa fa-check"></td>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Approval</td>
+                  <td class="level-right">
+                    <% if @profile.organizer.is_approved %>
+                      <div class="button is-small is-success">Approved</div>
+                    <% else %>
+                      <div class="button is-small is-danger">Not approved</div>
+                    <% end %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <% if owner? %>
+          <footer class="card-footer">
+            <a href="<%= edit_organizer_path %>" class="card-footer-item">Edit</a>
+          </footer>
+        <% end %>
+      </div>
+
     <% end %>
   </div>
   <div class="column is-8">
@@ -202,65 +312,110 @@
     <% end %>
     <section class="info-tiles">
       <div class="tile is-ancestor has-text-centered">
+        <% if @profile.organizer.present? %>
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <% if @profile.organizer.events %>
+                <p class="title"><%= @profile.organizer.events.count %></p>
+              <% else %>
+                <p class="title">0</p>
+              <% end %>
+              <p class="subtitle">Events Created</p>
+            </article>
+          </div>
+        <% end %>
         <div class="tile is-parent">
           <article class="tile is-child box">
             <p class="title">0</p>
-            <p class="subtitle">Assisted Events</p>
+            <p class="subtitle">Events to Attend</p>
           </article>
         </div>
         <div class="tile is-parent">
           <article class="tile is-child box">
             <p class="title">0</p>
-            <p class="subtitle">Created Events</p>
-          </article>
-        </div>
-        <div class="tile is-parent">
-          <article class="tile is-child box">
-            <p class="title">0</p>
-            <p class="subtitle">Upcoming Events</p>
+            <p class="subtitle">Events Assisted</p>
           </article>
         </div>
       </div>
     </section>
     <br>
-    <h1 class="title is-5 has-text-left">
-      Interests
-      <% if owner? %>
-        <span class="has-text-grey-light is-size-7"> (Click to remove)</span>
-        <a class="button is-small is-info is-pulled-right" href="<%= edit_profile_interests_path(@profile.username) %>">
-          Edit Interests &nbsp &nbsp
-          <i class="fa fa-edit"></i>
-        </a>
-      <% end %>
-    </h1>
-    <table class="table is-fullwidth is-striped">
-      <% if @profile.public_profile || owner? %>
-        <tbody>
-          <% @profile.categories.order(:name).uniq.each do |category| %>
-            <tr>
-              <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left mt-1"><%= category.name %></td>
-              <td width="80%" class="has-items-right">
-                <div class="columns is-multiline mt-1 mb-1 is-flex">
-                  <% @profile.interests.where(category_id: category.id).each do |interest| %>
-                    <% if owner? %>
-                      <%= button_to destroy_profile_interests_path({username: @profile.username, interest_id: interest.id}), method: :delete, class: "button is-small is-info m-1" do %>
-                          <%= interest.name %> &nbsp; <i class="fa fa-times"></i>
-                      <% end %>
-                    <% else %>
-                      <div class="button is-small is-info m-1"><%= interest.name %></div>
-                    <% end %>
-                  <% end %>
-                </div>
-              </td>
-            </tr>
+    <div class="columns">
+      <% if @profile.organizer.present? %>
+      <div class="column is-half">
+        <h1 class="title is-5 has-text-left">
+          Events
+          <% if owner? %>
+            <a class="button is-small is-info is-pulled-right" href="<%= new_event_path %>">
+              Create Event &nbsp &nbsp
+              <i class="fa fa-plus"></i>
+            </a>
           <% end %>
-        </tbody>   
+        </h1>
+        <table class="table is-fullwidth is-striped">
+          <tbody>
+            <% if @profile.organizer.events %>
+              <% @profile.organizer.events.each do |event| %>
+                <tr>
+                  <td width="5%"><i class="fa fa-check"></td>
+                  <td width="70%" class="has-text-weight-bold has-text-grey-dark has-text-left"><%= event.name %></td>
+                  <td class="level-right">
+                    <a href="<%= event_path(event) %>" class="button is-small is-info">View</a>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td width="5%"><i class="fa fa-check"></td>
+                <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">No events created</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="column is-half">
       <% else %>
-        <div class="box">
-          <p class="title is-5">This profile is private!</p>
-          <p class="subtitle is-6">Only authorized users can see this content.</p>
-        </div>
+      <div class="column is-full">
       <% end %>
-    </table>
+        <h1 class="title is-5 has-text-left">
+          Interests
+          <% if owner? %>
+            <span class="has-text-grey-light is-size-7"> (Click to remove)</span>
+            <a class="button is-small is-info is-pulled-right" href="<%= edit_profile_interests_path(@profile.username) %>">
+              Edit Interests &nbsp &nbsp
+              <i class="fa fa-edit"></i>
+            </a>
+          <% end %>
+        </h1>
+        <table class="table is-fullwidth is-striped">
+          <% if @profile.public_profile || owner? %>
+            <tbody>
+              <% @profile.categories.order(:name).uniq.each do |category| %>
+                <tr>
+                  <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left mt-1"><%= category.name %></td>
+                  <td width="80%" class="has-items-right">
+                    <div class="columns is-multiline mt-1 mb-1 is-flex">
+                      <% @profile.interests.where(category_id: category.id).each do |interest| %>
+                        <% if owner? %>
+                          <%= button_to destroy_profile_interests_path({username: @profile.username, interest_id: interest.id}), method: :delete, class: "button is-small is-info m-1" do %>
+                              <%= interest.name %> &nbsp; <i class="fa fa-times"></i>
+                          <% end %>
+                        <% else %>
+                          <div class="button is-small is-info m-1"><%= interest.name %></div>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          <% else %>
+            <div class="box">
+              <p class="title is-5">This profile is private!</p>
+              <p class="subtitle is-6">Only authorized users can see this content.</p>
+            </div>
+          <% end %>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

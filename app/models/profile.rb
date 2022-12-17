@@ -1,5 +1,8 @@
 class Profile < ApplicationRecord
   belongs_to :user
+
+  has_one :organizer, dependent: :destroy
+
   has_many :profile_interests
   has_many :interests, through: :profile_interests, dependent: :destroy
   has_many :categories, through: :interests

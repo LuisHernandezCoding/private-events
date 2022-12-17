@@ -1,0 +1,34 @@
+<div id="<%= dom_id event %>" class="card">
+  <div class="card-content">
+    <p class="title is-4">
+      <%= event.name %>
+    </p>
+    <p class="subtitle is-6">
+      <%= event.description %>
+    </p>
+  </div>
+  <div class="card-footer">
+    <div class="card-footer-item">
+      <p>
+        <strong>Organizer:</strong>
+        <br>
+        <a href="<%= profile_path(event.organizer.profile.username) %>">
+        <%= event.organizer.profile.username %></a>
+      </p>
+    </div>
+    <div class="card-footer-item">
+      <p>
+        <strong>When:</strong>
+        <br>
+        <%= event.date %> at <%= event.hour %>
+      </p>
+    </div>
+    <div class="card-footer-item">
+      <p>
+        <strong>Where:</strong>
+        <br>
+          <%= CS.countries[event.country.to_sym] %>, <%= CS.states(event.country.to_sym)[event.state.to_sym] %>, <%= CS.cities(event.state.to_sym, event.country.to_sym)[event.city.to_i] %>
+      </p>
+    </div>
+  </div>
+</div>

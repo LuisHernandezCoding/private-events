@@ -16,17 +16,17 @@
         <div class="navbar-item has-dropdown is-hoverable" href="">
           <a class="navbar-link" href="">Events</a>
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="">All Events</a>
-            <a class="navbar-item" href="">Create Event</a>
-            <a class="navbar-item" href="">Upcoming Events</a>
-            <a class="navbar-item" href="">Past Events</a>
+            <a class="navbar-item" href="<%= events_path %>">All Events</a>
+            <a class="navbar-item" href="<%= new_event_path %>">Create Event</a>
+            <a class="navbar-item" href="<%= events_path %>">Upcoming Events</a>
+            <a class="navbar-item" href="<%= events_path %>">Past Events</a>
           </div>
         </div>
         <div class="navbar-item has-dropdown is-hoverable" href="">
-          <a class="navbar-link" href="">Info</a>
+          <a class="navbar-link" href="">About</a>
           <div class="navbar-dropdown">
             <a class="navbar-item" href="<%= contact_path %>">Contact</a>
-            <a class="navbar-item" href="<%= about_path %>">About</a>
+            <a class="navbar-item" href="<%= about_path %>">Creator</a>
             <a class="navbar-item" href="<%= tos_path %>">TOS</a>
             <a class="navbar-item" href="<%= privacy_path %>">Privacy</a>
           </div>

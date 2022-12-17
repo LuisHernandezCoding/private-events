@@ -1,0 +1,40 @@
+<h1 class="title is-1 has-text-centered has-text-weight-bold has-text-primary">
+  Create your organizer account
+</h1>
+<p class="subtitle is-4 has-text-centered has-text-weight-bold has-text-gray">
+  Lets start creating your organizer account!
+</p>
+
+<div class="columns is-multiline">
+  <div class="column is-8">
+    <%= render "form", organizer: @organizer, button_text: "Create" %>
+  </div>
+  <div class="column is-4">
+    <div class="card">
+      <div class="card-content">
+        <p class="title is-4 has-text-centered has-text-weight-bold has-text-primary">
+          We are almost there!
+        </p>
+        <div class="card-content">
+          <div class="content subtitle is-6 has-text-left has-text-gray">
+            <p>
+              You are almost done creating your organizer account, we just need a few more details to get you started.
+            </p>
+            <p>
+              Next are some queries that can assist us in finding out how we can support your activities.
+            </p>
+            <p class="has-text-weight-bold">
+              You can always come back and edit your profile later.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div>
+  <%= link_to "Back to events", events_path %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_16_065313) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_17_015803) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,12 +28,46 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_16_065313) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "date"
+    t.string "hour"
+    t.string "country"
+    t.string "state"
+    t.string "city"
+    t.string "is_virtual?"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "organizer_id", null: false
+    t.index ["organizer_id"], name: "index_events_on_organizer_id"
+  end
+
   create_table "interests", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "category_id"
     t.index ["category_id"], name: "index_interests_on_category_id"
+  end
+
+  create_table "organizers", force: :cascade do |t|
+    t.string "experience"
+    t.string "team"
+    t.integer "events_quantity_expectation"
+    t.integer "events_size_expectation"
+    t.boolean "is_active", default: true
+    t.boolean "is_approved", default: false
+    t.boolean "preferences_ticketing", default: false
+    t.boolean "preferences_data_collection", default: false
+    t.boolean "preferences_publicity", default: false
+    t.boolean "preferences_analytics", default: false
+    t.boolean "preferences_reputation", default: false
+    t.boolean "preferences_marketing", default: false
+    t.bigint "profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id"], name: "index_organizers_on_profile_id"
   end
 
   create_table "profile_interests", force: :cascade do |t|
@@ -81,7 +115,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_16_065313) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "events", "organizers"
   add_foreign_key "interests", "categories"
+  add_foreign_key "organizers", "profiles"
   add_foreign_key "profile_interests", "interests"
   add_foreign_key "profile_interests", "profiles"
   add_foreign_key "profiles", "users"

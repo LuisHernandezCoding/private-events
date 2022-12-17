@@ -50,7 +50,7 @@
           <div class="control">
             <label class="checkbox">
               <%= form.check_box :terms, class: "checkbox" %>
-              I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Statement</a>.
+              I agree to the <a href="<%= tos_path %>">Terms and Conditions</a> and <a href="<%= privacy_path %>">Privacy Statement</a>.
             </label>
           </div>
           <% if @profile.errors.any? %>

@@ -1,0 +1,320 @@
+<div class="form">
+  <%= form_with model: @organizer, local: true, class: "form" do |form| %>
+    <div class="columns is-multiline">
+      <div class="column is-half">
+        <div class="field">
+          <h1 class="title is-5 has-text-centered has-text-weight-bold has-text-primary mb-2">Have you ever held events before?</h1>
+          <div class="control p-4">
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :experience, "This is my first time", checked: true, class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-bicycle fa-2x"></i></td>
+                      <td width="90%" class="p-2">This is my first time arranging events</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :experience, "I have some prior experience arranging events", class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-car-side fa-2x"></i></td>
+                      <td width="90%" class="p-2">I have some prior experience arranging events</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :experience, "I have extensive experience in organizing events", class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-rocket fa-2x"></i></td>
+                      <td width="90%" class="p-2">I have extensive experience in organizing events</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="field">
+          <h1 class="title is-5 has-text-centered has-text-weight-bold has-text-primary mb-2">How many individuals are involved in planning your events?</h1>
+          <div class="control p-4">
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :team, "1", checked: true, class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-user fa-2x"></i></td>
+                      <td width="90%" class="p-2">I am a solo organizer</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :team, "2-10", class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-users fa-2x"></i></td>
+                      <td width="90%" class="p-2">A handfull of people (2-10)</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :team, "10+", class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-people-carry fa-2x"></i></td>
+                      <td width="90%" class="p-2">A group (10+)</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+      <div class="column is-half">
+        <div class="field">
+          <h1 class="title is-5 has-text-centered has-text-weight-bold has-text-primary mb-2">How many gatherings will you organize this year?</h1>
+          <div class="control p-4">
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :events_quantity_expectation, "1", checked: true, class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-calendar-check fa-2x"></i></td>
+                      <td width="90%" class="p-2">Just One</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :events_quantity_expectation, "2-10", class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-list-ol fa-2x"></i></td>
+                      <td width="90%" class="p-2">A handfull of events (2-10)</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :events_quantity_expectation, "10+", class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-infinity fa-2x"></i></td>
+                      <td width="90%" class="p-2">A lot of events (10+)</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="field">
+          <h1 class="title is-5 has-text-centered has-text-weight-bold has-text-primary mb-2">How would you characterize your event attendance?</h1>
+          <div class="control p-4">
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :events_size_expectation, "1-20", checked: true, class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-home fa-2x"></i></td>
+                      <td width="90%" class="p-2">Small and intimate (1-20)</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :events_size_expectation, "20-100", class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-glass-cheers fa-2x"></i></td>
+                      <td width="90%" class="p-2">Medium and lively (20-100)</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :events_size_expectation, "100-500", class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-bullhorn fa-2x"></i></td>
+                      <td width="90%" class="p-2">Large and festive (100-500)</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-full radio">
+                <%= form.radio_button :events_size_expectation, "500+", class: "radio-button is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-city fa-2x"></i></td>
+                      <td width="90%" class="p-2">Massive and epic (500+)</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <h1 class="title is-5 has-text-centered has-text-weight-bold has-text-primary mb-2">What are your priorities? Choose all that apply.</h1>
+    <div class="columns is-multiline">
+      <div class="column is-half">
+        <div class="field">
+          <div class="control p-4">
+            <div class="columns is-multiline">
+              <label class="box column w-half checkbox">
+                <%= form.check_box :preferences_ticketing, class: "checkbox is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-ticket-alt fa-2x"></i></td>
+                      <td width="90%" class="p-2">Maximizing ticket sales</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-half checkbox">
+                <%= form.check_box :preferences_data_collection, class: "checkbox is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-database fa-2x"></i></td>
+                      <td width="90%" class="p-2">Utilizing data to target audience</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-half checkbox">
+                <%= form.check_box :preferences_publicity, class: "checkbox is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-bullhorn fa-2x"></i></td>
+                      <td width="90%" class="p-2">Publicizing on different platforms</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-half">
+        <div class="field">
+          <div class="control p-4">
+            <div class="columns is-multiline">
+              <label class="box column w-half checkbox">
+                <%= form.check_box :preferences_analytics, class: "checkbox is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-chart-line fa-2x"></i></td>
+                      <td width="90%" class="p-2">Advanced analytics</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-half checkbox">
+                <%= form.check_box :preferences_reputation, class: "checkbox is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-receipt fa-2x"></i></td>
+                      <td width="90%" class="p-2">Strengthening my reputation</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+            <br>
+            <div class="columns is-multiline">
+              <label class="box column w-half checkbox">
+                <%= form.check_box :preferences_marketing, class: "checkbox is-pulled-right" %>
+                <p class="p-1">
+                  <table style="width: 90%">
+                    <tbody><tr>
+                      <td width="10%"><i class="fas fa-pen-nib fa-2x"></i></td>
+                      <td width="90%" class="p-2">Streamlining marketing efforts</td>
+                    </tr></tbody>
+                  </table>
+                </p>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="field">
+      <div class="control">
+        <%= form.submit button_text, class: "button is-link" %>
+      </div>
+    </div>
+  <% end %>
+</div>

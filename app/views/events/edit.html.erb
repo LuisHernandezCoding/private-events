@@ -1,0 +1,19 @@
+<h1 class="title is-1 has-text-centered has-text-weight-bold has-text-primary">
+  Edit event
+</h1>
+<p class="subtitle is-4 has-text-centered has-text-weight-bold has-text-gray">
+  Lets start creating your event!
+</p>
+
+<div class="columns is-multiline">
+  <div class="column is-half is-offset-one-quarter">
+    <%= render "form", event: @event %>
+  </div>
+</div>
+
+<br>
+
+<div>
+  <%= link_to "Show this event", @event %> |
+  <%= link_to "Back to events", events_path %>
+</div>

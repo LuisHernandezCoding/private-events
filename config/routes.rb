@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+  resources :profiles, only: %w[index new create show edit], param: :username
+  resources :profiles, only: %w[update]
+
+  resources :events
+  resources :organizers, only: %w[index new create]
+  resources :organizers, only: %w[edit update destroy], param: :username
+  get 'organizers/:username', to: 'organizers#show', as: 'show_organizer'
+
+  get 'cities/:state', to: 'events#obtain_cities'
+  get 'states/:country', to: 'events#obtain_states'
+
   devise_scope :user do
     get 'users', to: 'devise/sessions#new'
     get '2fa/settings', to: 'users_otp#settings', as: 'users_otp_settings'
@@ -19,9 +30,6 @@ Rails.application.routes.draw do
   delete 'contact/:id', to: 'pages#contact_destroy', as: 'contact_destroy'
   get 'TOS', to: 'pages#tos', as: 'tos'
   get 'privacy', to: 'pages#privacy'
-
-  resources :profiles, only: %w[index new create show edit], param: :username
-  resources :profiles, only: %w[update]
 
   patch 'profiles/:username/next_step', to: 'profiles#next_step', as: 'next_step'
   patch 'profiles/:username/privacity', to: 'profiles#privacity', as: 'privacity'
