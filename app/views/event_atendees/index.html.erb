@@ -1,0 +1,31 @@
+<div class="box">
+  <h2 class="is-size-3 has-text-weight-bold has-text-primary">
+    Event Atendees
+  </h2>
+  <table class="table is-fullwidth">
+    <thead>
+      <tr class="has-text-weight-bold">
+        <th width="35%">Event</th>
+        <th width="35%">Atendee</th>
+        <th width="15%">Created at</th>
+        <th width="15%">Updated at</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @atendees.count == 0 %>
+        <tr>
+          <td colspan="4" class="has-text-centered">No event atendees found</td>
+        </tr>
+      <% else %>
+        <% @atendees.each do |event_atendee| %>
+          <tr class="has-text-left">
+            <td><%= event_atendee.event.name %></td>
+            <td><%= event_atendee.profile.username %></td>
+            <td class="is-size-7"><%= event_atendee.created_at %></td>
+            <td class="is-size-7"><%= event_atendee.updated_at %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

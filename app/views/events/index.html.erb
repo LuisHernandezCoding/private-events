@@ -1,12 +1,3 @@
-<h1 class="title is-2 has-text-centered has-text-weight-bold has-text-primary">Events</h1>
-
-<div id="events" class="columns is-multiline">
-  <% @events.each do |event| %>
-    <% if event.public && event.status == "completed" %>
-      <div class="column is-half">
-        <%= render event, context: 'index' %>
-        <a href="<%= event_path(event.short_name) %>" class="button is-primary is-fullwidth">Show</a>
-      </div>
-    <% end %>
-  <% end %>
-</div>
+<%= render 'today' %>
+<%= render 'events/upcoming' %>
+<%= render 'events/past' %>

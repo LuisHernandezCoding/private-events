@@ -16,10 +16,11 @@
         <div class="navbar-item has-dropdown is-hoverable" href="">
           <a class="navbar-link" href="">Events</a>
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="<%= events_path %>">All Events</a>
             <a class="navbar-item" href="<%= new_event_path %>">Create Event</a>
-            <a class="navbar-item" href="<%= events_path %>">Upcoming Events</a>
-            <a class="navbar-item" href="<%= events_path %>">Past Events</a>
+            <a class="navbar-item" href="<%= events_path %>">All Events</a>
+            <a class="navbar-item" href="<%= today_event_path %>">Today Events</a>
+            <a class="navbar-item" href="<%= upcoming_event_path %>">Upcoming Events</a>
+            <a class="navbar-item" href="<%= past_event_path %>">Past Events</a>
           </div>
         </div>
         <div class="navbar-item has-dropdown is-hoverable" href="">

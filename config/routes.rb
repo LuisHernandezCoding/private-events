@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   resources :profiles, only: %w[update]
 
   resources :events, param: :short_name
+  get 'events/show/upcoming', to: 'events#upcoming', as: 'upcoming_event'
+  get 'events/show/past', to: 'events#past', as: 'past_event'
+  get 'events/show/today', to: 'events#today', as: 'today_event'
+
   get 'events/:short_name/step', to: 'events#step', as: 'step_event'
   patch 'events/:short_name/reset', to: 'events#reset', as: 'reset_event'
   patch 'events/:short_name/location/restart', to: 'events#edit_location', as: 'restart_event_location'
@@ -16,6 +20,7 @@ Rails.application.routes.draw do
 
   post 'events/:short_name/atendees', to: 'event_atendees#create', as: 'attend_event'
   delete 'events/:short_name/atendees', to: 'event_atendees#destroy', as: 'decline_event'
+  get 'events/:short_name/atendees', to: 'event_atendees#index', as: 'atendees_event'
 
   resources :organizers, only: %w[index new create]
   resources :organizers, only: %w[edit update destroy], param: :username

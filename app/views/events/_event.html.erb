@@ -41,6 +41,7 @@
           <%= button_to "Attend", attend_event_path(event.short_name), method: :post, class: "column button is-success is-fullwidth" %>
         <% end %>
       <% end %>
+      <%= link_to "Attendees", atendees_event_path(event.short_name), class: "column button is-info is-fullwidth" %>
     </div>    
   </div>
   <div class="card-footer">

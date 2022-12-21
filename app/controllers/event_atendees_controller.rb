@@ -1,6 +1,12 @@
 class EventAtendeesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_event, only: %i[create destroy]
+  before_action :set_event, only: %i[create destroy index]
+
+
+  # GET /events/:id/atendees
+  def index
+    @atendees = @event.event_atendees
+  end
 
   # POST /events/:id/atendees
   def create

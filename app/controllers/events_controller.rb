@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
+  before_action :authenticate_user!, except: %i[index show past upcoming]
   before_action :set_event, only: %i[show edit update destroy reset step completed edit_location edit_interests]
   before_action :check_event!, only: %i[edit update destroy reset step completed]
   before_action :check_for_organizer, only: %i[new create edit update destroy reset step completed]
@@ -11,6 +11,21 @@ class EventsController < ApplicationController
 
   # GET /events/1 or /events/1.json
   def show; end
+
+  # GET /events/upcoming
+  def past
+    @events = Event.all
+  end
+
+  # GET /events/past
+  def upcoming
+    @events = Event.all
+  end
+
+  # GET /events/today
+  def today
+    @events = Event.all
+  end
 
   # GET /events/new
   def new
