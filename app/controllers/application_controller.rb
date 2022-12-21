@@ -27,8 +27,12 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: 'You are not authorized to do that'
   end
 
+  def set_event
+    @event = Event.find(params[:id])
+  end
+
   def check_event!
-    return if current_user.profile.organizer == Event.find(params[:id]).organizer
+    return if current_user.profile.organizer == @event.organizer
 
     redirect_to root_path, alert: 'You are not authorized to do that'
   end

@@ -4,7 +4,7 @@
   <% @events.each do |event| %>
     <% if event.public && event.status == "completed" %>
       <div class="column is-half">
-        <%= render event %>
+        <%= render event, context: 'index' %>
         <a href="<%= event_path(event) %>" class="button is-primary is-fullwidth">Show</a>
       </div>
     <% end %>

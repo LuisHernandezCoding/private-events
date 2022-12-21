@@ -11,7 +11,11 @@
           <%= event.name %>
         </p>
         <p class="subtitle is-6">
-          <%= event.description %>
+          <% if context == 'index' %>
+            <%= event.description.truncate(1000) %>
+          <% else %>
+            <%= event.description %>
+          <% end %>
         </p>
       </div>
     </div>
@@ -22,11 +26,22 @@
         <br>
         <%= event.categories.uniq.map(&:name).join(', ') %>
     </div>
-    <div class="column">
+    <div class="column is-5">
       <strong>Tags:</strong>
       <br>
       <%= event.interests.uniq.map(&:name).join(', ') %>
     </div>
+    <div class="column">
+      <strong>Atendees: </strong><br>
+      <%= event.atendees.count %>
+      <% if current_user && current_user.profile && current_user.profile != event.organizer.profile %>
+        <% if event.atendees.include?(current_user.profile) %>
+          <%= button_to "Decline", decline_event_path(event), method: :delete, class: "column button is-danger is-fullwidth" %>
+        <% else %>
+          <%= button_to "Attend", attend_event_path(event), method: :post, class: "column button is-success is-fullwidth" %>
+        <% end %>
+      <% end %>
+    </div>    
   </div>
   <div class="card-footer">
     <div class="card-footer-item">
@@ -48,8 +63,16 @@
       <p>
         <strong>Where:</strong>
         <br>
-          <%= CS.countries[event.country.to_sym] %>, <%= CS.states(event.country.to_sym)[event.state.to_sym] %>, <%= CS.cities(event.state.to_sym, event.country.to_sym)[event.city.to_i] %>
+          <%= CS.cities(event.state.to_sym, event.country.to_sym)[event.city.to_i] %>,
+          <%= event.state.to_sym %>,
+          <%= event.country.to_sym %>
       </p>
     </div>
   </div>
+</div>
+<div class="columns m-0">
+  <% if current_user && current_user.profile && current_user.profile == event.organizer.profile %>
+    <button class="column is-half button is-info is-fullwidth">Edit</button>
+    <button class="column is-half button is-danger is-fullwidth">Delete</button>
+  <% end %>
 </div>

@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[show edit update destroy reset step completed edit_location edit_interests]
   before_action :authenticate_user!, except: %i[index show]
+  before_action :set_event, only: %i[show edit update destroy reset step completed edit_location edit_interests]
   before_action :check_event!, only: %i[edit update destroy reset step completed]
   before_action :check_for_organizer, only: %i[new create edit update destroy reset step completed]
 
@@ -169,11 +169,6 @@ class EventsController < ApplicationController
   end
 
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_event
-    @event = Event.find(params[:id])
-  end
 
   # Only allow a list of trusted parameters through.
   def event_params

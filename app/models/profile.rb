@@ -6,7 +6,9 @@ class Profile < ApplicationRecord
   has_many :profile_interests
   has_many :interests, through: :profile_interests, dependent: :destroy
   has_many :categories, through: :interests
+
   has_many :events
+  has_many :event_atendees
 
   validates :username, :first_name, :last_name, presence: true
   validates :username, length: { in: 3..20 }

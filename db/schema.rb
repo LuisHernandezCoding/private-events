@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_18_022909) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_21_012300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_18_022909) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "event_atendees", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "profile_id", null: false
+    t.boolean "accepted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_atendees_on_event_id"
+    t.index ["profile_id"], name: "index_event_atendees_on_profile_id"
   end
 
   create_table "event_interests", force: :cascade do |t|
@@ -130,6 +140,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_18_022909) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "event_atendees", "events"
+  add_foreign_key "event_atendees", "profiles"
   add_foreign_key "event_interests", "events"
   add_foreign_key "event_interests", "interests"
   add_foreign_key "events", "organizers"

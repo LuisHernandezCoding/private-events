@@ -4,9 +4,9 @@
   </div>
 <% end %>
 
-<%= render @event %>
+<%= render @event, context: 'show' %>
+<%= link_to "Back to events", events_path, class: "button is-white has-text-link m-2 is-pulled-left" %>
 <% if current_user && @event.organizer.profile == current_user.profile %>
-  <%= link_to "Edit this event", edit_event_path(@event), class: "button is-primary m-2 is-pulled-right" %>
+  <%= link_to "Edit this event", edit_event_path(@event), class: "button is-primary m-2 is-pulled-center" %>
   <%= button_to "Delete this event", @event, method: :delete, data: { confirm: "Are you sure?" }, class: "button is-danger m-2 is-pulled-right" %>
 <% end %>
-<%= link_to "Back to events", events_path, class: "button is-white has-text-link m-2 is-pulled-right" %>

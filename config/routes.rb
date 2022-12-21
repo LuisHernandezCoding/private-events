@@ -7,13 +7,15 @@ Rails.application.routes.draw do
   patch 'events/:id/reset', to: 'events#reset', as: 'reset_event'
   patch 'events/:id/location/restart', to: 'events#edit_location', as: 'restart_event_location'
   patch 'events/:id/interests/restart', to: 'events#edit_interests', as: 'restart_event_interests'
+  patch 'events/:id/completed', to: 'events#completed', as: 'completed_event'
 
   get 'events/:id/interests/edit', to: 'event_interests#edit', as: 'edit_event_interests'
   patch 'events/:id/interests/', to: 'event_interests#update', as: 'update_event_interests'
   post 'events/:id/interests/', to: 'event_interests#create', as: 'create_event_interests'
   delete 'events/:id/interests/', to: 'event_interests#destroy', as: 'destroy_event_interests'
 
-  patch 'events/:id/completed', to: 'events#completed', as: 'completed_event'
+  post 'events/:id/atendees', to: 'event_atendees#create', as: 'attend_event'
+  delete 'events/:id/atendees', to: 'event_atendees#destroy', as: 'decline_event'
 
   resources :organizers, only: %w[index new create]
   resources :organizers, only: %w[edit update destroy], param: :username
