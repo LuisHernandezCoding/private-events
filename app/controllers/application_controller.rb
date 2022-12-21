@@ -28,7 +28,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_event
-    @event = Event.find(params[:id])
+    @event = Event.find_by(short_name: params[:short_name])
+    if @event.nil?
+      @event = Event.find_by(id: params[:short_name])
+    end
   end
 
   def check_event!

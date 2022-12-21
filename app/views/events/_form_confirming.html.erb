@@ -1,5 +1,5 @@
 <div class="box">
-  <form action="<%= completed_event_path(@event) %>" method="patch" accept-charset="UTF-8">
+  <form action="<%= completed_event_path(@event.short_name) %>" method="patch" accept-charset="UTF-8">
 
       <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">Check for last time</h2>
       <p class="has-text-centered">
@@ -73,7 +73,7 @@
   </form>
   </div>
 </div>
-<%= button_to "Start over", reset_event_path(@event), class: "button is-pulled-right is-info", method: :patch, data: { confirm: "Are you sure?" } %>
+<%= button_to "Start over", reset_event_path(@event.short_name), class: "button is-pulled-right is-info", method: :patch, data: { confirm: "Are you sure?" } %>
 <% if event.status != 'draft' %>
-  <%= button_to "Delete", event_path(@event), method: :delete, data: { confirm: "Are you sure?" }, class: "button is-danger is-outlined is-pulled-left" %>
+  <%= button_to "Delete", event_path(@event.short_name), method: :delete, data: { confirm: "Are you sure?" }, class: "button is-danger is-outlined is-pulled-left" %>
 <% end %>

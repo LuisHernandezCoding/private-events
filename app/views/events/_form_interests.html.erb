@@ -1,5 +1,5 @@
 <div class="box">
-  <form action="<%= update_event_interests_path(@event) %>" method="patch" accept-charset="UTF-8">
+  <form action="<%= update_event_interests_path(@event.short_name) %>" method="patch" accept-charset="UTF-8">
     <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">Interests</h2>
     <p class="subtitle has-text-weight-bold is-size-6">Select the tags that interest to your event.</p>
     <div class="column is-full">
@@ -22,7 +22,7 @@
   </form>
     <%= link_to "Back to events", events_path, class: "button is-link is-outlined is-pulled-center" %>
     <% if event.status != 'draft' %>
-      <%= button_to "Delete", event_path(@event), method: :delete, data: { confirm: "Are you sure?" }, class: "button is-danger is-outlined is-pulled-left" %>
+      <%= button_to "Delete", event_path(@event.short_name), method: :delete, data: { confirm: "Are you sure?" }, class: "button is-danger is-outlined is-pulled-left" %>
     <% end %>
   </div>
 </div>

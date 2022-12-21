@@ -10,8 +10,7 @@ class EventsController < ApplicationController
   end
 
   # GET /events/1 or /events/1.json
-  def show
-  end
+  def show; end
 
   # GET /events/new
   def new
@@ -21,7 +20,7 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     if @event.status != 'completed'
-      redirect_to step_event_path(@event)
+      redirect_to step_event_path(@event.short_name)
     end
   end
 
@@ -32,8 +31,9 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
+        set_event_short_name
         next_step
-        format.html { redirect_to step_event_path(@event), notice: "Event was successfully created." }
+        format.html { redirect_to step_event_path(@event.short_name), notice: "Event was successfully created." }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -48,7 +48,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update(event_params)
         next_step
-        format.html { redirect_to step_event_path(@event), notice: "Event was successfully updated." }
+        format.html { redirect_to step_event_path(@event.short_name), notice: "Event was successfully updated." }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit, status: :unprocessable_entity, notice: "Event was not updated." }
@@ -90,34 +90,34 @@ class EventsController < ApplicationController
 
   # GET /events/:id/step
   def step
-    return redirect_to edit_event_path(@event) if @event.status == 'completed' && @event.editing == false
+    return redirect_to edit_event_path(@event.short_name) if @event.status == 'completed' && @event.editing == false
 
     if @event.organizer_id != current_user.profile.organizer.id
-      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+      redirect_to event_path(@event.short_name), notice: 'You are not the organizer of this event'
     end
   end
 
   # PATCH /events/:id/completed
   def completed
     if @event.organizer_id != current_user.profile.organizer.id
-      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+      redirect_to event_path(@event.short_name), notice: 'You are not the organizer of this event'
     end
 
     unless @event.status == 'confirming'
-      redirect_to step_event_path(@event), notice: 'You need to complete the event'
+      redirect_to step_event_path(@event.short_name), notice: 'You need to complete the event'
       return
     end
 
     @event.status = 'completed'
     @event.finished = true
     @event.save
-    redirect_to edit_event_path(@event), notice: 'Event completed'
+    redirect_to edit_event_path(@event.short_name), notice: 'Event completed'
   end
 
   # PATCH /events/:id/reset
   def reset
     if @event.organizer_id != current_user.profile.organizer.id
-      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+      redirect_to event_path(@event.short_name), notice: 'You are not the organizer of this event'
     end
 
     @event.status = 'draft'
@@ -126,17 +126,17 @@ class EventsController < ApplicationController
     @event.state = nil
     @event.city = nil
     @event.save
-    redirect_to step_event_path(@event), notice: 'Event reset'
+    redirect_to step_event_path(@event.short_name), notice: 'Event reset'
   end
 
   # PATCH /events/:id/interests
   def edit_interests
     if @event.organizer_id != current_user.profile.organizer.id
-      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+      redirect_to event_path(@event.short_name), notice: 'You are not the organizer of this event'
     end
 
     unless @event.status == 'completed'
-      redirect_to step_event_path(@event), notice: 'You need to complete the event'
+      redirect_to step_event_path(@event.short_name), notice: 'You need to complete the event'
       return
     end
 
@@ -144,17 +144,17 @@ class EventsController < ApplicationController
     @event.editing = true
     @event.finished = false
     @event.save
-    redirect_to step_event_path(@event)
+    redirect_to step_event_path(@event.short_name)
   end
 
   # PATCH /events/:id/location
   def edit_location
     if @event.organizer_id != current_user.profile.organizer.id
-      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+      redirect_to event_path(@event.short_name), notice: 'You are not the organizer of this event'
     end
 
     unless @event.status == 'completed'
-      redirect_to step_event_path(@event), notice: 'You need to complete the event'
+      redirect_to step_event_path(@event.short_name), notice: 'You need to complete the event'
       return
     end
 
@@ -165,7 +165,7 @@ class EventsController < ApplicationController
     @event.state = nil
     @event.city = nil
     @event.save
-    redirect_to step_event_path(@event)
+    redirect_to step_event_path(@event.short_name)
   end
 
   private
@@ -188,7 +188,7 @@ class EventsController < ApplicationController
     return unless @event.status == 'locating' || !@event.is_virtual? == 'Virtual'
 
     if @event.country == '' || @event.state == '' || @event.city == ''
-      redirect_to step_event_path(@event), notice: 'You need to select a location'
+      redirect_to step_event_path(@event.short_name), notice: 'You need to select a location'
     end
   end
 
@@ -221,6 +221,11 @@ class EventsController < ApplicationController
         @event.status = 'completed'
       end
     end
+    @event.save
+  end
+
+  def set_event_short_name
+    @event.short_name = @event.name.downcase.truncate(50).gsub(' ', '-').gsub(/[^\w-]/, '')
     @event.save
   end
 end

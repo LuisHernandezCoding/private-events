@@ -8,7 +8,7 @@ class EventAtendeesController < ApplicationController
     if atendee.save
       redirect_back(fallback_location: root_path)
     else
-      redirect_to event_path(@event), notice: 'Atendee not added'
+      redirect_to event_path(@event.short_name), notice: 'Atendee not added'
     end
   end
 
@@ -16,7 +16,7 @@ class EventAtendeesController < ApplicationController
   def destroy
     atendee = @event.event_atendees.find_by(profile_id: current_user.profile.id)
     unless atendee
-      redirect_to event_path(@event), notice: 'Atendee not found'
+      redirect_to event_path(@event.short_name), notice: 'Atendee not found'
       return
     end
 

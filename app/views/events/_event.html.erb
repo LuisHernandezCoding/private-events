@@ -36,9 +36,9 @@
       <%= event.atendees.count %>
       <% if current_user && current_user.profile && current_user.profile != event.organizer.profile %>
         <% if event.atendees.include?(current_user.profile) %>
-          <%= button_to "Decline", decline_event_path(event), method: :delete, class: "column button is-danger is-fullwidth" %>
+          <%= button_to "Decline", decline_event_path(event.short_name), method: :delete, class: "column button is-danger is-fullwidth" %>
         <% else %>
-          <%= button_to "Attend", attend_event_path(event), method: :post, class: "column button is-success is-fullwidth" %>
+          <%= button_to "Attend", attend_event_path(event.short_name), method: :post, class: "column button is-success is-fullwidth" %>
         <% end %>
       <% end %>
     </div>    
@@ -69,10 +69,4 @@
       </p>
     </div>
   </div>
-</div>
-<div class="columns m-0">
-  <% if current_user && current_user.profile && current_user.profile == event.organizer.profile %>
-    <button class="column is-half button is-info is-fullwidth">Edit</button>
-    <button class="column is-half button is-danger is-fullwidth">Delete</button>
-  <% end %>
 </div>

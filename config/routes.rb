@@ -2,20 +2,20 @@ Rails.application.routes.draw do
   resources :profiles, only: %w[index new create show edit], param: :username
   resources :profiles, only: %w[update]
 
-  resources :events
-  get 'events/:id/step', to: 'events#step', as: 'step_event'
-  patch 'events/:id/reset', to: 'events#reset', as: 'reset_event'
-  patch 'events/:id/location/restart', to: 'events#edit_location', as: 'restart_event_location'
-  patch 'events/:id/interests/restart', to: 'events#edit_interests', as: 'restart_event_interests'
-  patch 'events/:id/completed', to: 'events#completed', as: 'completed_event'
+  resources :events, param: :short_name
+  get 'events/:short_name/step', to: 'events#step', as: 'step_event'
+  patch 'events/:short_name/reset', to: 'events#reset', as: 'reset_event'
+  patch 'events/:short_name/location/restart', to: 'events#edit_location', as: 'restart_event_location'
+  patch 'events/:short_name/interests/restart', to: 'events#edit_interests', as: 'restart_event_interests'
+  patch 'events/:short_name/completed', to: 'events#completed', as: 'completed_event'
 
-  get 'events/:id/interests/edit', to: 'event_interests#edit', as: 'edit_event_interests'
-  patch 'events/:id/interests/', to: 'event_interests#update', as: 'update_event_interests'
-  post 'events/:id/interests/', to: 'event_interests#create', as: 'create_event_interests'
-  delete 'events/:id/interests/', to: 'event_interests#destroy', as: 'destroy_event_interests'
+  get 'events/:short_name/interests/edit', to: 'event_interests#edit', as: 'edit_event_interests'
+  patch 'events/:short_name/interests/', to: 'event_interests#update', as: 'update_event_interests'
+  post 'events/:short_name/interests/', to: 'event_interests#create', as: 'create_event_interests'
+  delete 'events/:short_name/interests/', to: 'event_interests#destroy', as: 'destroy_event_interests'
 
-  post 'events/:id/atendees', to: 'event_atendees#create', as: 'attend_event'
-  delete 'events/:id/atendees', to: 'event_atendees#destroy', as: 'decline_event'
+  post 'events/:short_name/atendees', to: 'event_atendees#create', as: 'attend_event'
+  delete 'events/:short_name/atendees', to: 'event_atendees#destroy', as: 'decline_event'
 
   resources :organizers, only: %w[index new create]
   resources :organizers, only: %w[edit update destroy], param: :username

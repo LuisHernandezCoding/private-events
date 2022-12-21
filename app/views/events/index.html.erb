@@ -5,7 +5,7 @@
     <% if event.public && event.status == "completed" %>
       <div class="column is-half">
         <%= render event, context: 'index' %>
-        <a href="<%= event_path(event) %>" class="button is-primary is-fullwidth">Show</a>
+        <a href="<%= event_path(event.short_name) %>" class="button is-primary is-fullwidth">Show</a>
       </div>
     <% end %>
   <% end %>

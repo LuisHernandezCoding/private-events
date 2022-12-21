@@ -368,16 +368,20 @@
                   <td class="has-text-weight-bold has-text-grey-dark has-text-left"><%= event.description.truncate(50) %></td>
                   <td class="level-right">
                     <% if owner? %>
-                      <% unless event.public %>
-                        <a href="<%= event_path(event) %>" class="button is-small is-danger is-outlined p-1">Private</a> &nbsp
-                      <% end %>
                       <% unless event.finished? %>
-                        <a href="<%= step_event_path(event) %>" class="button is-small is-danger is-outlined p-1">Incomplete</a> &nbsp
+                        <a href="<%= step_event_path(event.short_name) %>" class="button is-small is-danger is-outlined p-1">Incomplete</a> &nbsp
                       <% else %>
-                        <a href="<%= edit_event_path(event) %>" class="button is-small is-primary is-outlined">Edit</a> &nbsp
+                        <% unless event.public %>
+                          <a href="<%= event_path(event.short_name) %>" class="button is-small is-danger is-outlined p-1">Private</a> &nbsp
+                        <% end %>
+                        <a href="<%= edit_event_path(event.short_name) %>" class="button is-small is-primary is-outlined">Edit</a> &nbsp
+                        <a href="<%= event_path(event.short_name) %>" class="button is-primary is-small is-outlined">View</a>
+                      <% end %>
+                    <% else %>
+                      <% if event.finished? %>
+                        <a href="<%= event_path(event.short_name) %>" class="button is-primary is-small is-outlined">View</a>
                       <% end %>
                     <% end %>
-                    <a href="<%= event_path(event) %>" class="button is-primary is-small is-outlined">View</a>
                   </td>
                 </tr>
               <% end %>
