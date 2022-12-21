@@ -17,15 +17,15 @@
       <h1 class="title has-text-weight-bold has-text-primary is-size-3">Select Your Interests</h1>
       <p class="subtitle has-text-weight-bold is-size-5">Select the tags that interest you.</p>
       <br>
-      <div class="columns is-multiline">
+      <div class="columns is-multiline box">
         <div class="column is-half">
           <% @categories.first(@categories.length / 2).each do |category| %>
-            <%= render partial: "category", locals: { category: category } %>
+            <%= render partial: "category", locals: { category: category, comparable: @profile } %>
           <% end %>
         </div>
         <div class="column is-half">
           <% @categories.last(@categories.length / 2).each do |category| %>
-            <%= render partial: "category", locals: { category: category } %>
+            <%= render partial: "category", locals: { category: category, comparable: @profile } %>
           <% end %>
         </div>
       </div>

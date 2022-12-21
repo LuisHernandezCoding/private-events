@@ -1,126 +1,239 @@
 <div class="box">
   <%= form_with(model: event) do |form| %>
-    <% if event.errors.any? %>
-      <div style="color: red">
-        <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
-  
-        <ul>
-          <% event.errors.each do |error| %>
-            <li><%= error.full_message %></li>
+    <% if event.status == 'draft' %>
+      <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">General Information</h2>
+      <div class="field">
+        <label class="label">Name
+          <% if event.errors.any? %>
+            |<span class="has-text-danger is-size-7"> <%= event.errors.full_messages_for(:name).join(", ") %></span>
           <% end %>
-        </ul>
+        </label>
+        <div class="control">
+          <%= form.text_field :name, class: "input" %>
+        </div>
+      </div>
+    
+      <div class="field">
+        <label class="label">Description
+          <% if event.errors.any? %>
+            |<span class="has-text-danger is-size-7"> <%= event.errors.full_messages_for(:description).join(", ") %></span>
+          <% end %>
+        </label>
+        <div class="control">
+          <%= form.text_area :description, rows: 7, cols: 24, class: "textarea" %>
+        </div>
+      </div>
+      <hr>
+      <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">Date and Time</h2>
+      <div class="columns is-multiline">
+        <div class="field column is-half">
+          <label class="label">Start Date</label>
+          <div class="control">
+            <%= form.date_field :date, value: Date.today, class: "input", min: Date.today %>
+          </div>
+        </div>
+        <div class="field column is-half">
+          <label class="label">End Date <span class="is-size-7 has-text-grey-light">(Optional)</span></label>
+          <div class="control">
+            <%= form.date_field :date_ending, value: Date.today, class: "input", min: Date.today %>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-multiline">
+        <div class="field column is-third">
+          <label class="label">Start Hour</label>
+          <div class="control">
+            <%= form.time_field :hour, value: '00:00', class: "input" %>
+          </div>
+        </div>
+        <div class="field column is-third">
+          <label class="label">End Hour <span class="is-size-7 has-text-grey-light">(Optional)</span></label>
+          <div class="control">
+            <%= form.time_field :hour_ending, value: '00:00', class: "input" %>
+          </div>
+        </div>
+        <div class="field column is-third">
+          <label class="label">Virtual/Presencial</label>
+          <div class="control">
+            <div class="select">
+              <select name="event[is_virtual?]" id="event_is_virtual?" class="select">
+                <option value="Presencial">Presencial</option>
+                <option value="Both">Both</option>
+                <option value="Virtual">Virtual</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% elsif event.status == 'created' %>
+      <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">Location</h2>
+      <% if !@event.country.present? && !@event.state.present? && !@event.city.present? %>
+        <div class="field">
+          <label class="label">Country
+            <% if event.errors.any? %>
+              |<span class="has-text-danger is-size-7"> <%= event.errors.full_messages_for(:country).join(", ") %></span>
+            <% end %>
+          </label>
+          <div class="control">
+            <div class="select">
+              <%= form.select :country, options_for_select(CS.countries.map { |c| [c[1], c[0]] }, selected: @event.country), class: "select", include_blank: "Select Country" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <% if !@event.state.present? && @event.country.present? && !@event.city.present? %>
+        <div class="field">
+          <label class="label">State
+            <% if event.errors.any? %>
+              |<span class="has-text-danger is-size-7"> <%= event.errors.full_messages_for(:state).join(", ") %></span>
+            <% end %>
+          </label>
+          <div class="control">
+            <div class="select">
+              <%= form.select :state, options_for_select(CS.states(@event.country).map { |c| [c[1], c[0]] }, selected: @event.state), class: "select" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <% if !@event.city.present? && @event.state.present? && @event.country.present? %>
+        <div class="field">
+          <label class="label">City
+            <% if event.errors.any? %>
+              |<span class="has-text-danger is-size-7"> <%= event.errors.full_messages_for(:city).join(", ") %></span>
+            <% end %>
+          </label>
+          <div class="control">
+            <div class="select">
+                <%= form.select :city, options_for_select(CS.cities(@event.state, @event.country), selected: @event.city), class: "select" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% elsif event.status == 'interest_adding' %>
+      <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">Visibility</h2>
+      <div class="field">
+        <label class="label">Visibility
+          <% if event.errors.any? %>
+            |<span class="has-text-danger is-size-7"> <%= event.errors.full_messages_for(:name).join(", ") %></span>
+          <% end %>
+        </label>
+        <div class="control">
+          <div class="select">
+            <%= form.select :public, options_for_select([["Public", "public"], ["Private", "private"]], selected: @event.public), class: "select" %>
+          </div>
+        </div>
+      </div>
+      <br>
+    <% elsif event.status == 'completed' %>
+      <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">General Information</h2>
+      <div class="field">
+        <label class="label">Name
+          <% if event.errors.any? %>
+            |<span class="has-text-danger is-size-7"> <%= event.errors.full_messages_for(:name).join(", ") %></span>
+          <% end %>
+        </label>
+        <div class="control">
+          <%= form.text_field :name, class: "input" %>
+        </div>
+      </div>
+    
+      <div class="field">
+        <label class="label">Description
+          <% if event.errors.any? %>
+            |<span class="has-text-danger is-size-7"> <%= event.errors.full_messages_for(:description).join(", ") %></span>
+          <% end %>
+        </label>
+        <div class="control">
+          <%= form.text_area :description, rows: 7, cols: 24, class: "textarea" %>
+        </div>
+      </div>
+      <hr>
+      <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">Date and Time</h2>
+      <div class="columns is-multiline">
+        <div class="field column is-3">
+          <label class="label">Start Date</label>
+          <div class="control">
+            <%= form.date_field :date, value: Date.today, class: "input", min: Date.today %>
+          </div>
+        </div>
+        <div class="field column is-3">
+          <label class="label">End Date <span class="is-size-7 has-text-grey-light">(Optional)</span></label>
+          <div class="control">
+            <%= form.date_field :date_ending, value: Date.today, class: "input", min: Date.today %>
+          </div>
+        </div>
+        <div class="field column is-3">
+          <label class="label">Start Hour</label>
+          <div class="control">
+            <%= form.time_field :hour, value: '00:00', class: "input" %>
+          </div>
+        </div>
+        <div class="field column is-3">
+          <label class="label">End Hour <span class="is-size-7 has-text-grey-light">(Optional)</span></label>
+          <div class="control">
+            <%= form.time_field :hour_ending, value: '00:00', class: "input" %>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">Location and Privacy</h2>
+      <div class="columns is-multiline">
+        <div class="field column is-3">
+          <label class="label">Privacy</label>
+          <div class="control">
+            <div class="select">
+              <%= form.select :public, options_for_select([["Public", "public"], ["Private", "private"]], selected: @event.public), class: "select" %>
+            </div>
+          </div>
+        </div>
+        <div class="field column is-3">
+          <label class="label">Virtual/Presencial</label>
+          <div class="control">
+            <div class="select">
+              <select name="event[is_virtual?]" id="event_is_virtual?" class="select">
+                <option value="Presencial">Presencial</option>
+                <option value="Both">Both</option>
+                <option value="Virtual">Virtual</option>
+              </select>
+            </div>
+          </div>
+        </div>        
+        <div class="field column is-2">
+          <label class="label">Country</label>
+          <div class="control">
+            <div class="select">
+              <select class="select" disabled>
+                <option><%= CS.countries[@event.country.to_sym] %></option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field column is-2">
+          <label class="label">State</label>
+          <div class="control">
+            <div class="select">
+              <select class="select" disabled>
+                <option><%= CS.states(@event.country)[@event.state.to_sym] %></option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field column is-2">
+          <label class="label">City</label>
+          <div class="control">
+            <div class="select">
+              <select class="select" disabled>
+                <option><%= CS.cities(@event.state, @event.country)[@event.city.to_i] %></option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
     <% end %>
-  
-    <div class="field">
-      <label class="label">Name</label>
-      <div class="control">
-        <%= form.text_field :name, class: "input" %>
-      </div>
-    </div>
-  
-    <div class="field">
-      <label class="label">Description</label>
-      <div class="control">
-        <%= form.text_area :description, rows: 5, cols: 24, class: "textarea" %>
-      </div>
-    </div>
-  
-    <div class="field">
-      <label class="label">Date</label>
-      <div class="control">
-        <%= form.date_field :date, value: Date.today, class: "input" %>
-      </div>
-    </div>
-  
-    <div class="field">
-      <label class="label">Hour</label>
-      <div class="control">
-        <%= form.time_field :hour, value: Time.now, class: "input" %>
-      </div>
-    </div>
-  
-    <div class="field">
-      <label class="label">Country</label>
-      <div class="control">
-        <%= form.select :country, CS.countries.map { |k, v| [v, k] }, prompt: "-- select an option --", class: "select" %>
-      </div>
-    </div>
-  
-    <div class="field">
-      <label class="label">State</label>
-      <div class="control">
-        <%= form.select :state, [], prompt: "-- select an option --", disabled: true, class: "select" %>
-      </div>
-    </div>
-  
-    <div class="field">
-      <label class="label">City</label>
-      <div class="control">
-        <%= form.select :city, [], prompt: "-- select an option --", disabled: true, class: "select" %>
-      </div>
-    </div>
-  
-    <div class="field">
-      <label class="label">Virtual/Presencial</label>
-      <div class="control">
-        <%= form.select :is_virtual?, ["Both", "Virtual", "Presencial"], class: "select" %>
-      </div>
-    </div>
-  
-    <div class="field">
-      <div class="control">
-        <%= form.submit "Submit", class: "button is-primary" %>
-      </div>
-    </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script>
-  // disable state and city select only if they are empty
-    $('select[name="event[state]"]').prop('disabled', true);
-    $('select[name="event[city]"]').prop('disabled', true);
-    
-    $('select[name="event[country]"]').change(function(){
-      get_states();
-    });
-    $('select[name="event[state]"]').change(function(){
-      get_cities();
-    });
 
-    get_states = function() {
-      var country = $('select[name="event[country]"]').val();
-      if(country){
-        $.ajax({
-          url: '/states/'+country,
-          type: "GET",
-          dataType: "json",
-          success:function(data) {
-            $('select[name="event[state]"]').empty();
-            $('select[name="event[state]"]').prop('disabled', false);
-            $.each(data, function(key, value) {
-              $('select[name="event[state]"]').append('<option value="'+ key +'">'+ value +'</option>');
-            });
-          }
-        });
-      }
-    }
-
-    get_cities = function() {
-      var state = $('select[name="event[state]"]').val();
-      if(state){
-        $.ajax({
-          url: '/cities/'+state,
-          type: "GET",
-          dataType: "json",
-          success:function(data) {
-            $('select[name="event[city]"]').empty();
-            $('select[name="event[city]"]').prop('disabled', false);
-            $.each(data, function(key, value) {
-              $('select[name="event[city]"]').append('<option value="'+ key +'">'+ value +'</option>');
-            });
-          }
-        });
-      }
-    }
-  </script>
+  
+  <div class="buttons is-centered">
+  <%= form.submit "Submit", class: "button is-primary is-pulled-right" %>
   <% end %>
+  </div>
 </div>

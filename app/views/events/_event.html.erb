@@ -1,11 +1,32 @@
 <div id="<%= dom_id event %>" class="card">
   <div class="card-content">
-    <p class="title is-4">
-      <%= event.name %>
-    </p>
-    <p class="subtitle is-6">
-      <%= event.description %>
-    </p>
+    <div class="columns">
+      <div class="column is-one-third">
+        <figure class="image is-4by9">
+          <img src="https://via.placeholder.com/400x900" alt="Placeholder image">
+        </figure>
+      </div>
+      <div class="column">
+        <p class="title is-4">
+          <%= event.name %>
+        </p>
+        <p class="subtitle is-6">
+          <%= event.description %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column is-one-third">
+        <strong>Category:</strong>
+        <br>
+        <%= event.categories.uniq.map(&:name).join(', ') %>
+    </div>
+    <div class="column">
+      <strong>Tags:</strong>
+      <br>
+      <%= event.interests.uniq.map(&:name).join(', ') %>
+    </div>
   </div>
   <div class="card-footer">
     <div class="card-footer-item">

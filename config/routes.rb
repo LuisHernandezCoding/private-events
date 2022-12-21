@@ -3,6 +3,18 @@ Rails.application.routes.draw do
   resources :profiles, only: %w[update]
 
   resources :events
+  get 'events/:id/step', to: 'events#step', as: 'step_event'
+  patch 'events/:id/reset', to: 'events#reset', as: 'reset_event'
+  patch 'events/:id/location/restart', to: 'events#edit_location', as: 'restart_event_location'
+  patch 'events/:id/interests/restart', to: 'events#edit_interests', as: 'restart_event_interests'
+
+  get 'events/:id/interests/edit', to: 'event_interests#edit', as: 'edit_event_interests'
+  patch 'events/:id/interests/', to: 'event_interests#update', as: 'update_event_interests'
+  post 'events/:id/interests/', to: 'event_interests#create', as: 'create_event_interests'
+  delete 'events/:id/interests/', to: 'event_interests#destroy', as: 'destroy_event_interests'
+
+  patch 'events/:id/completed', to: 'events#completed', as: 'completed_event'
+
   resources :organizers, only: %w[index new create]
   resources :organizers, only: %w[edit update destroy], param: :username
   get 'organizers/:username', to: 'organizers#show', as: 'show_organizer'

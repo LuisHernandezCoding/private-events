@@ -2,9 +2,11 @@
 
 <div id="events" class="columns is-multiline">
   <% @events.each do |event| %>
-    <div class="column is-half">
-      <%= render event %>
-      <a href="<%= event_path(event) %>" class="button is-primary is-fullwidth">Show</a>
-    </div>
+    <% if event.public && event.status == "completed" %>
+      <div class="column is-half">
+        <%= render event %>
+        <a href="<%= event_path(event) %>" class="button is-primary is-fullwidth">Show</a>
+      </div>
+    <% end %>
   <% end %>
 </div>

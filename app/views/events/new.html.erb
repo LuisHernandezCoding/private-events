@@ -1,23 +1,15 @@
-<h1 class="title is-1 has-text-centered has-text-weight-bold has-text-primary">
+<h1 class="title is-2 has-text-centered has-text-weight-bold has-text-primary">
   New event
 </h1>
-<p class="subtitle is-4 has-text-centered has-text-weight-bold has-text-gray">
+<p class="subtitle is-5 has-text-centered has-text-weight-bold has-text-gray">
   Lets start creating your event!
 </p>
 
 <div class="columns is-multiline">
-  <div class="column is-6 is-offset-1">
+  <div class="column is-4">
+    <%= render "status", event: @event %>
+  </div>
+  <div class="column is-8">
     <%= render "form", event: @event %>
   </div>
-  <div class="column is-4 is-offset-1">
-    <div class="card">
-      <%= render partial: "layouts/progress", locals: { step: 1 } %>
-    </div>
-  </div>
-</div>
-
-<br>
-
-<div>
-  <%= link_to "Back to events", events_path %>
 </div>

@@ -1,0 +1,32 @@
+<h1 class="title is-2 has-text-centered has-text-weight-bold has-text-primary">
+  Step 
+  <% if @event.status == "draft" %>
+    1
+  <% elsif @event.status == "created" %>
+    2
+  <% elsif @event.status == "locating" %>
+    3
+  <% elsif @event.status == "interest_adding" %>
+    4
+  <% elsif @event.status == "confirming" %>
+    5
+  <% else %>
+    6
+  <% end %>
+  of 6
+</h1>
+
+<div class="columns is-multiline">
+  <div class="column is-4">
+    <%= render "status", event: @event %>
+  </div>
+  <div class="column is-8">
+    <% if @event.status == "locating" %>
+      <%= render "form_interests", event: @event %>
+    <% elsif @event.status == "confirming" %>
+      <%= render "form_confirming", event: @event %>
+    <% else %>
+      <%= render "form", event: @event %>
+    <% end %>
+  </div>
+</div>

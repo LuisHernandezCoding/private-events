@@ -5,7 +5,7 @@
 <% end %>
 
 <%= render @event %>
-<% if @event.organizer.profile == current_user.profile %>
+<% if current_user && @event.organizer.profile == current_user.profile %>
   <%= link_to "Edit this event", edit_event_path(@event), class: "button is-primary m-2 is-pulled-right" %>
   <%= button_to "Delete this event", @event, method: :delete, data: { confirm: "Are you sure?" }, class: "button is-danger m-2 is-pulled-right" %>
 <% end %>

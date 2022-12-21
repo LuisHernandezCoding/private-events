@@ -1,8 +1,8 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[show edit update destroy]
+  before_action :set_event, only: %i[show edit update destroy reset step completed edit_location edit_interests]
   before_action :authenticate_user!, except: %i[index show]
-  before_action :check_for_organizer, only: %i[new create edit update destroy]
-  before_action :check_for_event_organizer, only: %i[edit update destroy]
+  before_action :check_event!, only: %i[edit update destroy reset step completed]
+  before_action :check_for_organizer, only: %i[new create edit update destroy reset step completed]
 
   # GET /events or /events.json
   def index
@@ -20,6 +20,9 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    if @event.status != 'completed'
+      redirect_to step_event_path(@event)
+    end
   end
 
   # POST /events or /events.json
@@ -29,7 +32,8 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to event_url(@event), notice: "Event was successfully created." }
+        next_step
+        format.html { redirect_to step_event_path(@event), notice: "Event was successfully created." }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,12 +44,14 @@ class EventsController < ApplicationController
 
   # PATCH/PUT /events/1 or /events/1.json
   def update
+    check_for_location
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to event_url(@event), notice: "Event was successfully updated." }
+        next_step
+        format.html { redirect_to step_event_path(@event), notice: "Event was successfully updated." }
         format.json { render :show, status: :ok, location: @event }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity, notice: "Event was not updated." }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
@@ -53,6 +59,7 @@ class EventsController < ApplicationController
 
   # DELETE /events/1 or /events/1.json
   def destroy
+    @event.interests.destroy_all
     @event.destroy
 
     respond_to do |format|
@@ -81,6 +88,86 @@ class EventsController < ApplicationController
     end
   end
 
+  # GET /events/:id/step
+  def step
+    return redirect_to edit_event_path(@event) if @event.status == 'completed' && @event.editing == false
+
+    if @event.organizer_id != current_user.profile.organizer.id
+      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+    end
+  end
+
+  # PATCH /events/:id/completed
+  def completed
+    if @event.organizer_id != current_user.profile.organizer.id
+      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+    end
+
+    unless @event.status == 'confirming'
+      redirect_to step_event_path(@event), notice: 'You need to complete the event'
+      return
+    end
+
+    @event.status = 'completed'
+    @event.finished = true
+    @event.save
+    redirect_to edit_event_path(@event), notice: 'Event completed'
+  end
+
+  # PATCH /events/:id/reset
+  def reset
+    if @event.organizer_id != current_user.profile.organizer.id
+      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+    end
+
+    @event.status = 'draft'
+    @event.finished = false
+    @event.country = nil
+    @event.state = nil
+    @event.city = nil
+    @event.save
+    redirect_to step_event_path(@event), notice: 'Event reset'
+  end
+
+  # PATCH /events/:id/interests
+  def edit_interests
+    if @event.organizer_id != current_user.profile.organizer.id
+      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+    end
+
+    unless @event.status == 'completed'
+      redirect_to step_event_path(@event), notice: 'You need to complete the event'
+      return
+    end
+
+    @event.status = 'locating'
+    @event.editing = true
+    @event.finished = false
+    @event.save
+    redirect_to step_event_path(@event)
+  end
+
+  # PATCH /events/:id/location
+  def edit_location
+    if @event.organizer_id != current_user.profile.organizer.id
+      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+    end
+
+    unless @event.status == 'completed'
+      redirect_to step_event_path(@event), notice: 'You need to complete the event'
+      return
+    end
+
+    @event.status = 'created'
+    @event.editing = true
+    @event.finished = false
+    @event.country = nil
+    @event.state = nil
+    @event.city = nil
+    @event.save
+    redirect_to step_event_path(@event)
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -90,7 +177,8 @@ class EventsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:name, :description, :date, :hour, :country, :state, :city, :is_virtual?)
+    params.require(:event).permit(:name, :description, :date, :hour, :country, :date_ending, :hour_ending,
+                                  :state, :city, :is_virtual?, :interests, :public)
   end
 
   # Check if the user is an organizer
@@ -100,10 +188,44 @@ class EventsController < ApplicationController
     end
   end
 
-  # Check if the user is the organizer of the event
-  def check_for_event_organizer
-    if @event.organizer_id != current_user.profile.organizer.id
-      redirect_to event_path(@event), notice: 'You are not the organizer of this event'
+  # Check if the event has a location
+  def check_for_location
+    return unless @event.status == 'locating' || !@event.is_virtual? == 'Virtual'
+
+    if @event.country == '' || @event.state == '' || @event.city == ''
+      redirect_to step_event_path(@event), notice: 'You need to select a location'
     end
+  end
+
+  # update the event step
+  def next_step
+    if @event.editing
+      if @event.country.nil? || @event.state.nil? || @event.city.nil?
+        @event.status = 'created' if @event.status == 'created'
+      else
+        @event.status = 'completed'
+        @event.editing = false
+        @event.finished = true
+      end
+    else
+      if @event.status == 'draft'
+        if @event.is_virtual? == 'Virtual'
+          @event.status = 'locating'
+        else
+          @event.status = 'created'
+        end
+      elsif @event.status == 'created'
+        if @event.country.nil? || @event.state.nil? || @event.city.nil?
+          @event.status = 'created'
+        else
+          @event.status = 'locating'
+        end
+      elsif @event.status == 'interest_adding'
+        @event.status = 'confirming'
+      elsif @event.status == 'confirming'
+        @event.status = 'completed'
+      end
+    end
+    @event.save
   end
 end

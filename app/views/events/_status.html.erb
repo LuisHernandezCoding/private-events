@@ -1,0 +1,85 @@
+<div class="box">
+  <% if @event.status == "draft" %>
+    <div class="container has-text-centered is-size-6">
+      <p class="title is-4 has-text-primary">Event Details</p>
+      <p class="subtitle is-6">Please fill out the following form to create your event:</p>
+      <br>
+      <p><strong>Name:</strong> Provide a name for your event that clearly communicates what it is about. This will help people understand what they can expect from attending your event.</p>
+      <br>
+      <p><strong>Description:</strong> Give a brief description of your event that provides more information about what will happen. This could include details about the topic or theme of the event, any special guests or speakers, and any activities or interactive elements that will be included.</p>
+      <br>
+      <p><strong>Date and Time:</strong> Select the date and time for your event. Be sure to consider factors like the availability of your intended audience, any competing events, and the length of your event when choosing a date and time.</p>
+      <br>
+      <p><strong>Virtual/In-Person:</strong> Indicate whether your event will be held virtually (online) or in-person (at a physical location). If your event is virtual, be sure to include details about how people can access it (e.g., through a link or a phone number). If it is in-person, include the location and any necessary details about how to get there.</p>
+    </div>
+  <% elsif @event.status == "created" %>
+    <% if @event.country.nil? %>
+      <div class="container">
+        <p class="title is-4 has-text-primary">Country</p>
+        <p class="subtitle is-6">Please select the country where your event will take place:</p>
+        <br>
+        <p>This information will be used to help people find your event and ensure that they are seeing the most relevant information for their location.</p>
+      </div>
+    <% else %>
+      <% if @event.state.nil? %>
+        <div class="container">
+          <p class="title is-4 has-text-primary">State</p>
+          <p class="subtitle is-6">Please select the state where your event will take place:</p>
+          <br>
+          <p>This information will be used to help people locate your event and see the most relevant information for their location.</p>
+        </div>
+      <% else %>
+        <% if @event.city.nil? %>
+          <div class="container">
+            <p class="title is-4 has-text-primary">City</p>
+            <p class="subtitle is-6">Please select the city where your event will take place:</p>
+            <br>
+            <p>The city of the event its the most important information for people to find your event.</p>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% elsif @event.status == "locating" %>
+    <div class="container">
+      <p class="title is-4 has-text-primary">The Importance of Selecting the Right Interests for Your Event</p>
+      <br>
+      <p class="subtitle is-6">When creating an event, it's important to carefully consider the interests of your intended audience. By selecting the right interests, you can more effectively reach and engage the people who are most likely to be interested in your event. However, it's important to keep in mind that you can only select a limited number of interests, so it's important to choose wisely.</p>
+      <br>
+      <p>One of the key benefits of selecting the right interests is that it helps to attract the right audience. By targeting your event to people with specific interests, you can ensure that the people who attend are more likely to be engaged and interested in what you have to offer. This can help to create a more positive and enjoyable experience for both you and your attendees.</p>
+      <br>
+      <p>Another reason to be selective about your interests is that it helps to streamline your marketing efforts. By focusing on a specific set of interests, you can more effectively target your marketing efforts and reach the people who are most likely to be interested in your event. This can help to save time and resources, and ultimately lead to better results.</p>
+      <br>
+      <p>Finally, selecting the right interests can help to increase the visibility of your event. By targeting your event to people with specific interests, you can ensure that your event is more likely to be seen by the people who are most likely to be interested in what you have to offer. This can help to increase the number of people who attend your event, and ultimately lead to better results.</p>
+    </div>
+  <% elsif @event.status == "interest_adding" %>
+    <div class="container">
+      <p class="title is-4 has-text-primary">Event Visibility</p>
+      <br>
+      <p>Please select whether your event is public or private:</p>
+      <br>
+      <p><strong>Public:</strong> A public event is visible to anyone and can be found through search engines or shared links. This option is suitable for events that are open to the general public or have a wide appeal.</p>
+      <br>
+      <p><strong>Private:</strong> A private event is only visible to people who have been invited or have a specific link. This option is suitable for events that are invitation-only or have a more targeted audience.</p>
+    </div>
+  <% elsif @event.status == "confirming" %>
+    <div class="container">
+      <p class="title is-4 has-text-primary">Confirm Event Information</p>
+      <br>
+      <p>Please take a moment to review the information located on the left side of this page to ensure that it is accurate and correct before proceeding.</p>
+      <br>
+      <p>It is very important to have your event information correct, as it helps to ensure that everything runs smoothly and that all necessary preparations can be made. Please double check all of the details, including the date, time, location, and any other relevant information.</p>
+      <br>
+      <p>If you notice any errors or discrepancies, please make the necessary corrections before moving forward. It is always better to catch and fix any mistakes early on, rather than dealing with potential issues later on.</p>
+      <br>
+      <em>Thank you for your attention to this matter.</em>
+    </div>
+  <% elsif @event.status == "completed" %>
+    <div class="container">
+      <p class="title is-4 has-text-primary">Event Creation Complete</p>
+      <br>
+      <p>Your event has been successfully created. You can now share it with your friends and family, or invite them to attend by sending them a link to this page.</p>
+      <br>
+      <p>You can also use the invite button located on the right side of this page to send an email invitation to your friends and family.</p>
+    </div>
+  <% end %>
+</div>

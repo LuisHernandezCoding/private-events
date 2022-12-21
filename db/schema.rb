@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_17_015803) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_18_022909) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,6 +28,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_17_015803) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "event_interests", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "interest_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_interests_on_event_id"
+    t.index ["interest_id"], name: "index_event_interests_on_interest_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -40,6 +49,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_17_015803) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "organizer_id", null: false
+    t.boolean "public", default: false
+    t.boolean "finished", default: false
+    t.string "status", default: "draft"
+    t.string "date_ending"
+    t.string "hour_ending"
+    t.boolean "editing", default: false
     t.index ["organizer_id"], name: "index_events_on_organizer_id"
   end
 
@@ -115,6 +130,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_17_015803) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "event_interests", "events"
+  add_foreign_key "event_interests", "interests"
   add_foreign_key "events", "organizers"
   add_foreign_key "interests", "categories"
   add_foreign_key "organizers", "profiles"

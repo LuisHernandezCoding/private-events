@@ -25,7 +25,7 @@ class ProfileInterestsController < ApplicationController
   end
 
   def update
-    if params[:profile_interests].nil? && params['next'] == 'next'
+    if params[:interests].nil? && params['next'] == 'next'
       redirect_to edit_profile_interests_path(params[:username]), alert: 'Please select at least one interest'
       return
     end
@@ -36,7 +36,7 @@ class ProfileInterestsController < ApplicationController
     @profile.profile_interests.destroy_all
 
     if params['next'] == 'next'
-      params[:profile_interests].each do |interest|
+      params[:interests].each do |interest|
         ProfileInterest.new(interest_id: interest[0], profile_id: @profile.id).save
       end
     end

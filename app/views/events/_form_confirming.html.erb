@@ -1,0 +1,79 @@
+<div class="box">
+  <form action="<%= completed_event_path(@event) %>" method="patch" accept-charset="UTF-8">
+
+      <h2 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">Check for last time</h2>
+      <p class="has-text-centered">
+        Please check one last time if all the information is correct, 
+        if you are ready to publish your event click on the button below also 
+        if you want to make any changes click on the back button.
+      </p>
+      <br>
+      <h3 class="title is-5 has-text-centered has-text-weight-bold">Event Basic information</h3>
+      <div class="columns is-multiline">
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">Event Name</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= event.name %></p>
+        </div>
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">Organizer Profile</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= event.organizer.profile.username %></p>
+        </div>
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">Event Type</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= event.public ? "Public" : "Private" %></p>
+        </div>
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">Categories</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= event.categories.uniq.map { |c| c.name }.join(", ") %></p>
+        </div>
+      </div>
+      <br>
+      <div class="columns">
+        <div class="column is-9">
+        <h4 class="title is-6 has-text-centered has-text-weight-bold">Event Description</h4>
+          <p class="subtitle is-6 has-text-centered"><%= event.description %></p>
+        </div>
+        <div class="column is-3">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">Interests</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= event.interests.uniq.map { |i| i.name }.join(", ") %></p>
+        </div>
+      </div>
+      <hr>
+      <h3 class="title is-5 has-text-centered has-text-weight-bold">Event Location and Date</h3>
+      <div class="columns is-multiline">
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">Country</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= CS.countries[event.country.to_sym] %></p>
+        </div>
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">State</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= CS.states(event.country.to_sym)[event.state.to_sym] %></p>
+        </div>
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">City</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= CS.cities(event.state.to_sym, event.country.to_sym)[event.city.to_i] %></p>
+        </div>
+      </div>
+      <div class="columns is-multiline">
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">Date</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= event.date %></p>
+        </div>
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">Hour</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= event.hour %></p>
+        </div>
+        <div class="column">
+          <h4 class="title is-6 has-text-centered has-text-weight-bold">Is Virtual?</h4>
+          <p class="subtitle is-6 has-text-centered has-text-weight-bold has-text-primary"><%= event.is_virtual? %></p>
+        </div>
+      </div>
+  <div class="buttons is-centered">
+    <button type="submit" class="button is-primary is-pulled-right">Submit</button>
+  </form>
+  </div>
+</div>
+<%= button_to "Start over", reset_event_path(@event), class: "button is-pulled-right is-info", method: :patch, data: { confirm: "Are you sure?" } %>
+<% if event.status != 'draft' %>
+  <%= button_to "Delete", event_path(@event), method: :delete, data: { confirm: "Are you sure?" }, class: "button is-danger is-outlined is-pulled-left" %>
+<% end %>

@@ -6,14 +6,22 @@
 </p>
 
 <div class="columns is-multiline">
-  <div class="column is-half is-offset-one-quarter">
+  <div class="column is-3">
+    <div class="box">
+      <h1 class="title is-4 has-text-centered has-text-weight-bold has-text-primary">
+        Actions
+      </h1>
+      <div class="content">
+        <%= button_to "Show", event_path(@event), method: :get, class: "button is-primary is-fullwidth" %>
+        <%= button_to "Delete", event_path(@event), method: :delete, data: { confirm: "Are you sure?" }, class: "button is-danger is-fullwidth mt-2" %>
+        <%= button_to "Back", events_path, method: :get, class: "button is-light is-fullwidth mt-2" %>
+        <hr>
+        <%= button_to "Edit Location", restart_event_location_path(@event), method: :patch, class: "button is-info is-fullwidth mt-2" %>
+        <%= button_to "Edit Interests", restart_event_interests_path(@event), method: :patch, class: "button is-info is-fullwidth mt-2" %>
+      </div>
+    </div>
+  </div>
+  <div class="column is-9">
     <%= render "form", event: @event %>
   </div>
-</div>
-
-<br>
-
-<div>
-  <%= link_to "Show this event", @event %> |
-  <%= link_to "Back to events", events_path %>
 </div>

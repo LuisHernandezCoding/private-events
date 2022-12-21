@@ -86,7 +86,7 @@
       <% end %>
     </div>
     <br>
-    <% if @profile.public_profile || owner? %>
+    <% if @profile.public_profile || owner? || current_user && current_user.profile && current_user.profile.is_admin %>
       <div class="card events-card">
         <header class="card-header">
           <p class="card-header-title">
@@ -111,8 +111,8 @@
                   </tr>
                   <% if @profile.country.present? %>
                     <tr>
-                      <td width="5%"><i class="fa fa-thumbtack"></td>
-                      <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">State</td>
+                      <td width="5%"><i class="fa fa-globe"></td>
+                      <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">Country</td>
                       <td class="level-right"><%= CS.countries[@profile.country.to_sym] %></td>
                     </tr>
                   <% end %>
@@ -168,7 +168,7 @@
         <p class="subtitle is-6">Only authorized users can see this content.</p>
       </div>
     <% end %>
-    <% if @profile.organizer.present? && (owner? || current_user.profile.present? && current_user.profile.is_admin) %>
+    <% if @profile.organizer.present? && (owner? || current_user && current_user.profile.present? && current_user.profile.is_admin) %>
       <br>
       <div class="card events-card">
         <header class="card-header">
@@ -340,42 +340,55 @@
     </section>
     <br>
     <div class="columns">
-      <% if @profile.organizer.present? %>
-      <div class="column is-half">
-        <h1 class="title is-5 has-text-left">
-          Events
-          <% if owner? %>
-            <a class="button is-small is-info is-pulled-right" href="<%= new_event_path %>">
-              Create Event &nbsp &nbsp
-              <i class="fa fa-plus"></i>
-            </a>
-          <% end %>
-        </h1>
-        <table class="table is-fullwidth is-striped">
-          <tbody>
-            <% if @profile.organizer.events %>
+      <% if @profile.organizer.present? && @profile.organizer.events.any? %>
+        <div class="column is-full">
+          <h1 class="title is-5 has-text-left">
+            Upcoming Events by <%= @profile.first_name %>
+            <% if owner? %>
+              <a class="button is-small is-info is-pulled-right" href="<%= new_event_path %>">
+                Create Event &nbsp &nbsp
+                <i class="fa fa-plus"></i>
+              </a>
+            <% end %>
+          </h1>
+          <table class="table is-fullwidth is-striped">
+            <thead>
+              <tr>
+                <th width="3%"></th>
+                <th width="20%" class="has-text-weight-bold has-text-grey-dark has-text-left">Event Name</th>
+                <th width="60%" class="has-text-weight-bold has-text-grey-dark has-text-left">Description</th>
+                <th class="has-text-weight-bold has-text-grey-dark has-text-left"></th>
+              </tr>
+            </thead>
+            <tbody>
               <% @profile.organizer.events.each do |event| %>
                 <tr>
-                  <td width="5%"><i class="fa fa-check"></td>
-                  <td width="70%" class="has-text-weight-bold has-text-grey-dark has-text-left"><%= event.name %></td>
+                  <td width="3%"><i class="fa fa-check"></td>
+                  <td width="20%" class="has-text-weight-bold has-text-grey-dark has-text-left"><%= event.name.truncate(15) %></td>
+                  <td class="has-text-weight-bold has-text-grey-dark has-text-left"><%= event.description.truncate(50) %></td>
                   <td class="level-right">
-                    <a href="<%= event_path(event) %>" class="button is-small is-info">View</a>
+                    <% if owner? %>
+                      <% unless event.public %>
+                        <a href="<%= event_path(event) %>" class="button is-small is-danger is-outlined p-1">Private</a> &nbsp
+                      <% end %>
+                      <% unless event.finished? %>
+                        <a href="<%= step_event_path(event) %>" class="button is-small is-danger is-outlined p-1">Incomplete</a> &nbsp
+                      <% else %>
+                        <a href="<%= edit_event_path(event) %>" class="button is-small is-primary is-outlined">Edit</a> &nbsp
+                      <% end %>
+                    <% end %>
+                    <a href="<%= event_path(event) %>" class="button is-primary is-small is-outlined">View</a>
                   </td>
                 </tr>
               <% end %>
-            <% else %>
-              <tr>
-                <td width="5%"><i class="fa fa-check"></td>
-                <td width="25%" class="has-text-weight-bold has-text-grey-dark has-text-left">No events created</td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-      <div class="column is-half">
-      <% else %>
-      <div class="column is-full">
+            </tbody>
+          </table>
+        </div>
       <% end %>
+    </div>
+    <br>
+    <div class="columns">
+      <div class="column is-full">
         <h1 class="title is-5 has-text-left">
           Interests
           <% if owner? %>
@@ -387,7 +400,7 @@
           <% end %>
         </h1>
         <table class="table is-fullwidth is-striped">
-          <% if @profile.public_profile || owner? %>
+          <% if @profile.public_profile || owner? || current_user && current_user.profile && current_user.profile.is_admin %>
             <tbody>
               <% @profile.categories.order(:name).uniq.each do |category| %>
                 <tr>
