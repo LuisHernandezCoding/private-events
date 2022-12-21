@@ -21,11 +21,6 @@ class EventInterestsController < ApplicationController
 
   # PATCH /events/:short_name/interests
   def update
-    if params[:interests].nil?
-      redirect_to edit_event_interests_path(params[:short_name]), alert: 'Please select at least one interest'
-      return
-    end
-
     if @event.status == 'locating'
       if @event.editing
         @event.status = 'completed'
@@ -39,8 +34,10 @@ class EventInterestsController < ApplicationController
     @event.save
     @event.event_interests.destroy_all
 
-    params[:interests].each do |interest|
-      EventInterest.new(interest_id: interest[0], event_id: @event.id).save
+    if params[:interests].present?
+      params[:interests].each do |interest|
+        EventInterest.new(interest_id: interest[0], event_id: @event.id).save
+      end
     end
 
     redirect_to step_event_path(@event.short_name), notice: 'Interests added'
