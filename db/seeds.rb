@@ -1,4 +1,14 @@
 # Purpose: Seed the database with some initial data
+# Before running the seed lets make sure we have a clean database
+
+# First lets delete all the data in the database
+Interest.destroy_all
+Category.destroy_all
+
+# Lets set the index back to 1
+ActiveRecord::Base.connection.reset_pk_sequence!('categories')
+ActiveRecord::Base.connection.reset_pk_sequence!('interests')
+
 # First lets create some categories
 Category.create(name: 'Music')
 Category.create(name: 'Bussiness')
